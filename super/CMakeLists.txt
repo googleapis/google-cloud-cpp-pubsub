@@ -1,0 +1,62 @@
+# ~~~
+# Copyright 2020 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ~~~
+
+cmake_minimum_required(VERSION 3.5)
+project(google-cloud-cpp-pubsub-super-build CXX C)
+
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+set(GOOGLE_CLOUD_CPP_PUBSUB_ROOT "${PROJECT_SOURCE_DIR}/..")
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}")
+
+include(external/google-cloud-cpp-common)
+include(external/googletest)
+
+include(ExternalProjectHelper)
+set_external_project_build_parallel_level(PARALLEL)
+set_external_project_vars()
+
+include(ExternalProject)
+ExternalProject_Add(
+    gcp-pubsub
+    DEPENDS google-cloud-cpp-common-project googletest-project
+    EXCLUDE_FROM_ALL
+        OFF
+        BUILD_ALWAYS
+        1
+    PREFIX "${CMAKE_BINARY_DIR}/build"
+    INSTALL_DIR
+        "${GOOGLE_CLOUD_CPP_EXTERNAL_PREFIX}"
+        SOURCE_DIR
+        "${GOOGLE_CLOUD_CPP_PUBSUB_ROOT}"
+    LIST_SEPARATOR |
+    CMAKE_ARGS ${GOOGLE_CLOUD_CPP_EXTERNAL_PROJECT_CMAKE_FLAGS}
+               -DCMAKE_PREFIX_PATH=${GOOGLE_CLOUD_CPP_PREFIX_PATH}
+               -DCMAKE_INSTALL_RPATH=${GOOGLE_CLOUD_CPP_INSTALL_RPATH}
+               -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
+    BUILD_COMMAND ${CMAKE_COMMAND} --build <BINARY_DIR> ${PARALLEL}
+    TEST_COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure -LE
+                 integration-tests
+    LOG_DOWNLOAD OFF
+    LOG_CONFIGURE OFF
+    LOG_BUILD OFF
+    LOG_INSTALL OFF)
+
+# This makes it easy to compile the dependencies before the code.
+add_custom_target(project-dependencies)
+add_dependencies(project-dependencies google-cloud-cpp-common-project
+                 googletest-project)

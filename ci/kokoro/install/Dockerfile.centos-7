@@ -1,0 +1,179 @@
+# Copyright 2020 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+#
+# WARNING: This is an automatically generated file. Consider changing the
+#     sources instead. You can find the source templates and scripts at:
+#         https://github.com/googleapis/google-cloud-cpp-common/ci/templates
+#
+
+ARG DISTRO_VERSION=7
+FROM centos:${DISTRO_VERSION} AS devtools
+ARG NCPU=4
+
+## [START INSTALL.md]
+
+# First install the development tools and OpenSSL. The development tools
+# distributed with CentOS 7 (notably CMake) are too old to build
+# the project. In these instructions, we use `cmake3` obtained from
+# [Software Collections](https://www.softwarecollections.org/).
+
+# ```bash
+RUN rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+RUN yum install -y centos-release-scl yum-utils
+RUN yum-config-manager --enable rhel-server-rhscl-7-rpms
+RUN yum makecache && \
+    yum install -y automake cmake3 curl-devel gcc gcc-c++ git libtool \
+        make openssl-devel pkgconfig tar wget which zlib-devel
+RUN ln -sf /usr/bin/cmake3 /usr/bin/cmake && ln -sf /usr/bin/ctest3 /usr/bin/ctest
+# ```
+
+# The following steps will install libraries and tools in `/usr/local`. By
+# default CentOS-7 does not search for shared libraries in these directories,
+# there are multiple ways to solve this problem, the following steps are one
+# solution:
+
+# ```bash
+RUN (echo "/usr/local/lib" ; echo "/usr/local/lib64") | \
+    tee /etc/ld.so.conf.d/usrlocal.conf
+ENV PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:/usr/local/lib64/pkgconfig
+ENV PATH=/usr/local/bin:${PATH}
+# ```
+
+# #### Protobuf
+
+# We need to install a version of Protobuf that is recent enough to support the
+# Google Cloud Platform proto files:
+
+# ```bash
+WORKDIR /var/tmp/build
+RUN wget -q https://github.com/google/protobuf/archive/v3.9.1.tar.gz && \
+    tar -xf v3.9.1.tar.gz && \
+    cd protobuf-3.9.1/cmake && \
+    cmake \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DBUILD_SHARED_LIBS=yes \
+        -Dprotobuf_BUILD_TESTS=OFF \
+        -H. -Bcmake-out && \
+    cmake --build cmake-out -- -j ${NCPU:-4} && \
+    cmake --build cmake-out --target install -- -j ${NCPU:-4} && \
+    ldconfig
+# ```
+
+# #### c-ares
+
+# Recent versions of gRPC require c-ares >= 1.11, while CentOS-7
+# distributes c-ares-1.10. Manually install a newer version:
+
+# ```bash
+WORKDIR /var/tmp/build
+RUN wget -q https://github.com/c-ares/c-ares/archive/cares-1_14_0.tar.gz && \
+    tar -xf cares-1_14_0.tar.gz && \
+    cd c-ares-cares-1_14_0 && \
+    ./buildconf && ./configure && make -j ${NCPU:-4} && \
+    make install && \
+    ldconfig
+# ```
+
+# #### gRPC
+
+# We also need a version of gRPC that is recent enough to support the Google
+# Cloud Platform proto files. We manually install it using:
+
+# ```bash
+WORKDIR /var/tmp/build
+RUN wget -q https://github.com/grpc/grpc/archive/v1.23.1.tar.gz && \
+    tar -xf v1.23.1.tar.gz && \
+    cd grpc-1.23.1 && \
+    make -j ${NCPU:-4} && \
+    make install && \
+    ldconfig
+# ```
+
+# #### googleapis
+
+# We need a recent version of the Google Cloud Platform proto C++ libraries:
+
+# ```bash
+WORKDIR /var/tmp/build
+RUN wget -q https://github.com/googleapis/cpp-cmakefiles/archive/v0.1.5.tar.gz && \
+    tar -xf v0.1.5.tar.gz && \
+    cd cpp-cmakefiles-0.1.5 && \
+    cmake -DBUILD_SHARED_LIBS=YES -H. -Bcmake-out && \
+    cmake --build cmake-out -- -j ${NCPU:-4} && \
+    cmake --build cmake-out --target install -- -j ${NCPU:-4} && \
+    ldconfig
+# ```
+
+# #### googletest
+
+# We need a recent version of GoogleTest to compile the unit and integration
+# tests.
+
+# ```bash
+WORKDIR /var/tmp/build
+RUN wget -q https://github.com/google/googletest/archive/release-1.10.0.tar.gz && \
+    tar -xf release-1.10.0.tar.gz && \
+    cd googletest-release-1.10.0 && \
+    cmake -DCMAKE_BUILD_TYPE="Release" -DBUILD_SHARED_LIBS=yes -H. -Bcmake-out && \
+    cmake --build cmake-out -- -j ${NCPU:-4} && \
+    cmake --build cmake-out --target install -- -j ${NCPU:-4} && \
+    ldconfig
+# ```
+
+# #### google-cloud-cpp-common
+
+# The project also depends on google-cloud-cpp-common, the libraries shared by
+# all the Google Cloud C++ client libraries:
+
+# ```bash
+WORKDIR /var/tmp/build
+RUN wget -q https://github.com/googleapis/google-cloud-cpp-common/archive/v0.16.0.tar.gz && \
+    tar -xf v0.16.0.tar.gz && \
+    cd google-cloud-cpp-common-0.16.0 && \
+    cmake -H. -Bcmake-out \
+        -DBUILD_TESTING=OFF \
+        -DGOOGLE_CLOUD_CPP_TESTING_UTIL_ENABLE_INSTALL=ON && \
+    cmake --build cmake-out -- -j ${NCPU:-4} && \
+    cmake --build cmake-out --target install -- -j ${NCPU:-4} && \
+    ldconfig
+# ```
+
+FROM devtools AS install
+
+# #### Compile and install the main project
+
+# We can now compile, test, and install `google-cloud-cpp-pubsub`.
+
+# ```bash
+WORKDIR /home/build/project
+COPY . /home/build/project
+RUN cmake -H. -Bcmake-out
+RUN cmake --build cmake-out -- -j "${NCPU:-4}"
+WORKDIR /home/build/project/cmake-out
+RUN ctest -LE integration-tests --output-on-failure
+RUN cmake --build . --target install
+# ```
+
+## [END INSTALL.md]
+
+ENV PKG_CONFIG_PATH=/usr/local/lib64/pkgconfig
+
+# Verify that the installed files are actually usable
+WORKDIR /home/build/test-install-cmake
+COPY ci/test-install /home/build/test-install-cmake
+COPY google/cloud/pubsub/integration_tests/pubsub_install_test.cc /home/build/test-install-cmake
+# Disable pkg-config with CMake to verify it is not used in package discovery.
+RUN env -u PKG_CONFIG_PATH cmake -H. -B/i
+RUN cmake --build /i -- -j "${NCPU:-4}"
