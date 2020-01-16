@@ -26,6 +26,17 @@ declare -A ORIGINAL_COPYRIGHT_YEAR=(
   [ubuntu-bionic]=2020
 )
 
+read_into_variable INSTALL_CPP_CMAKEFILES_FROM_SOURCE <<'_EOF_'
+WORKDIR /var/tmp/build
+RUN wget -q https://github.com/googleapis/cpp-cmakefiles/archive/v0.4.0.tar.gz && \
+    tar -xf v0.4.0.tar.gz && \
+    cd cpp-cmakefiles-0.4.0 && \
+    cmake -DBUILD_SHARED_LIBS=YES -H. -Bcmake-out && \
+    cmake --build cmake-out -- -j ${NCPU:-4} && \
+    cmake --build cmake-out --target install -- -j ${NCPU:-4} && \
+    ldconfig
+_EOF_
+
 BUILD_AND_TEST_PROJECT_FRAGMENT=$(replace_fragments \
       "INSTALL_CPP_CMAKEFILES_FROM_SOURCE" \
       "INSTALL_GOOGLETEST_FROM_SOURCE" \
