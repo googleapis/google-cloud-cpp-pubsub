@@ -33,7 +33,7 @@ set_external_project_vars()
 include(ExternalProject)
 ExternalProject_Add(
   gcp-pubsub
-  DEPENDS google-cloud-cpp-common-project googletest-project
+  DEPENDS google-cloud-cpp-common-project googletest-project googleapis-project
   EXCLUDE_FROM_ALL OFF
   BUILD_ALWAYS 1
   PREFIX "${CMAKE_BINARY_DIR}/build"
@@ -54,4 +54,4 @@ ExternalProject_Add(
 # This makes it easy to compile the dependencies before the code.
 add_custom_target(project-dependencies)
 add_dependencies(project-dependencies google-cloud-cpp-common-project
-                 googletest-project)
+                 googletest-project googleapis-project)
