@@ -16,8 +16,8 @@
 #
 # This is not intended to be a demonstration of how to write good CMakeList.txt
 # files, nor is it a general solution to create CMake files for google-cloud-
-# cpp-pubsub. It is simply a minimal CMake file to verify that (a) the
-# installed libraries contain all required headers, and (b) the installed CMake
+# cpp-pubsub. It is simply a minimal CMake file to verify that (a) the installed
+# libraries contain all required headers, and (b) the installed CMake
 # configuration files are usable.
 
 cmake_minimum_required(VERSION 3.5)

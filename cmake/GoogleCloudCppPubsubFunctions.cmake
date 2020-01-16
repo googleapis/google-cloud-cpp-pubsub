@@ -14,13 +14,13 @@
 # limitations under the License.
 # ~~~
 
-function (google_cloud_cpp_test_name_to_target var fname)
-    string(REPLACE "/" "_" target ${fname})
-    string(REPLACE ".cc" "" target ${target})
-    set("${var}"
-        "${target}"
-        PARENT_SCOPE)
-endfunction ()
+function(google_cloud_cpp_test_name_to_target var fname)
+  string(REPLACE "/" "_" target ${fname})
+  string(REPLACE ".cc" "" target ${target})
+  set("${var}"
+      "${target}"
+      PARENT_SCOPE)
+endfunction()
 
 #
 # google_cloud_cpp_install_headers : install all the headers in a target
@@ -33,26 +33,25 @@ endfunction ()
 #   starts with `include/google/cloud`, the function requires the full
 #   destination in case some headers get installed elsewhere in the future.
 #
-function (google_cloud_cpp_install_headers target destination)
-    get_target_property(target_type ${target} TYPE)
-    if ("${target_type}" STREQUAL "INTERFACE_LIBRARY")
-        # For interface libraries we use `INTERFACE_SOURCES` to get the list of
-        # sources, which are actually just headers in this case.
-        get_target_property(target_sources ${target} INTERFACE_SOURCES)
-    else ()
-        get_target_property(target_sources ${target} SOURCES)
-    endif ()
-    foreach (header ${target_sources})
-        if (NOT "${header}" MATCHES "\\.h$" AND NOT "${header}" MATCHES
-                                                "\\.inc$")
-            continue()
-        endif ()
-        # Sometimes we generate header files into the binary directory, do not
-        # forget to install those with their relative path.
-        string(REPLACE "${CMAKE_CURRENT_BINARY_DIR}/" "" relative "${header}")
-        # INTERFACE libraries use absolute paths, yuck.
-        string(REPLACE "${CMAKE_CURRENT_SOURCE_DIR}/" "" relative "${relative}")
-        get_filename_component(dir "${relative}" DIRECTORY)
-        install(FILES "${header}" DESTINATION "${destination}/${dir}")
-    endforeach ()
-endfunction ()
+function(google_cloud_cpp_install_headers target destination)
+  get_target_property(target_type ${target} TYPE)
+  if("${target_type}" STREQUAL "INTERFACE_LIBRARY")
+    # For interface libraries we use `INTERFACE_SOURCES` to get the list of
+    # sources, which are actually just headers in this case.
+    get_target_property(target_sources ${target} INTERFACE_SOURCES)
+  else()
+    get_target_property(target_sources ${target} SOURCES)
+  endif()
+  foreach(header ${target_sources})
+    if(NOT "${header}" MATCHES "\\.h$" AND NOT "${header}" MATCHES "\\.inc$")
+      continue()
+    endif()
+    # Sometimes we generate header files into the binary directory, do not
+    # forget to install those with their relative path.
+    string(REPLACE "${CMAKE_CURRENT_BINARY_DIR}/" "" relative "${header}")
+    # INTERFACE libraries use absolute paths, yuck.
+    string(REPLACE "${CMAKE_CURRENT_SOURCE_DIR}/" "" relative "${relative}")
+    get_filename_component(dir "${relative}" DIRECTORY)
+    install(FILES "${header}" DESTINATION "${destination}/${dir}")
+  endforeach()
+endfunction()

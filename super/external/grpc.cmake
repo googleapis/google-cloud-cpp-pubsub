@@ -19,39 +19,39 @@ include(external/c-ares)
 include(external/ssl)
 include(external/protobuf)
 
-if (NOT TARGET grpc-project)
-    # Give application developers a hook to configure the version and hash
-    # downloaded from GitHub.
-    set(GOOGLE_CLOUD_CPP_GRPC_URL
-        "https://github.com/grpc/grpc/archive/v1.26.0.tar.gz")
-    set(GOOGLE_CLOUD_CPP_GRPC_SHA256
-        "2fcb7f1ab160d6fd3aaade64520be3e5446fc4c6fa7ba6581afdc4e26094bd81")
+if(NOT TARGET grpc-project)
+  # Give application developers a hook to configure the version and hash
+  # downloaded from GitHub.
+  set(GOOGLE_CLOUD_CPP_GRPC_URL
+      "https://github.com/grpc/grpc/archive/v1.26.0.tar.gz")
+  set(GOOGLE_CLOUD_CPP_GRPC_SHA256
+      "2fcb7f1ab160d6fd3aaade64520be3e5446fc4c6fa7ba6581afdc4e26094bd81")
 
-    set_external_project_build_parallel_level(PARALLEL)
-    set_external_project_vars()
+  set_external_project_build_parallel_level(PARALLEL)
+  set_external_project_vars()
 
-    include(ExternalProject)
-    ExternalProject_Add(
-        grpc-project
-        DEPENDS c-ares-project protobuf-project ssl-project
-        EXCLUDE_FROM_ALL ON
-        PREFIX "${CMAKE_BINARY_DIR}/external/grpc"
-        INSTALL_DIR "${GOOGLE_CLOUD_CPP_EXTERNAL_PREFIX}"
-        URL ${GOOGLE_CLOUD_CPP_GRPC_URL}
-        URL_HASH SHA256=${GOOGLE_CLOUD_CPP_GRPC_SHA256}
-        LIST_SEPARATOR |
-        CMAKE_ARGS ${GOOGLE_CLOUD_CPP_EXTERNAL_PROJECT_CMAKE_FLAGS}
-                   -DCMAKE_PREFIX_PATH=${GOOGLE_CLOUD_CPP_PREFIX_PATH}
-                   -DCMAKE_INSTALL_RPATH=${GOOGLE_CLOUD_CPP_INSTALL_RPATH}
-                   -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
-                   -DgRPC_BUILD_TESTS=OFF
-                   -DgRPC_ZLIB_PROVIDER=package
-                   -DgRPC_SSL_PROVIDER=package
-                   -DgRPC_CARES_PROVIDER=package
-                   -DgRPC_PROTOBUF_PROVIDER=package
-        BUILD_COMMAND ${CMAKE_COMMAND} --build <BINARY_DIR> ${PARALLEL}
-        LOG_DOWNLOAD ON
-        LOG_CONFIGURE ON
-        LOG_BUILD ON
-        LOG_INSTALL ON)
-endif ()
+  include(ExternalProject)
+  ExternalProject_Add(
+    grpc-project
+    DEPENDS c-ares-project protobuf-project ssl-project
+    EXCLUDE_FROM_ALL ON
+    PREFIX "${CMAKE_BINARY_DIR}/external/grpc"
+    INSTALL_DIR "${GOOGLE_CLOUD_CPP_EXTERNAL_PREFIX}"
+    URL ${GOOGLE_CLOUD_CPP_GRPC_URL}
+    URL_HASH SHA256=${GOOGLE_CLOUD_CPP_GRPC_SHA256}
+    LIST_SEPARATOR |
+    CMAKE_ARGS ${GOOGLE_CLOUD_CPP_EXTERNAL_PROJECT_CMAKE_FLAGS}
+               -DCMAKE_PREFIX_PATH=${GOOGLE_CLOUD_CPP_PREFIX_PATH}
+               -DCMAKE_INSTALL_RPATH=${GOOGLE_CLOUD_CPP_INSTALL_RPATH}
+               -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
+               -DgRPC_BUILD_TESTS=OFF
+               -DgRPC_ZLIB_PROVIDER=package
+               -DgRPC_SSL_PROVIDER=package
+               -DgRPC_CARES_PROVIDER=package
+               -DgRPC_PROTOBUF_PROVIDER=package
+    BUILD_COMMAND ${CMAKE_COMMAND} --build <BINARY_DIR> ${PARALLEL}
+    LOG_DOWNLOAD ON
+    LOG_CONFIGURE ON
+    LOG_BUILD ON
+    LOG_INSTALL ON)
+endif()
