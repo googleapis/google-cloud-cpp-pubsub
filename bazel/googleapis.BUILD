@@ -39,3 +39,14 @@ cc_library(
     ],
     includes = ["."],
 )
+
+cc_library(
+    name = "grpc_utils_protos",
+    includes = [
+        ".",
+    ],
+    deps = [
+        "@com_github_grpc_grpc//:grpc++",
+        "//google/rpc:status_cc_proto",
+    ],
+)
