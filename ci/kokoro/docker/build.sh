@@ -218,7 +218,7 @@ mkdir -p "${BUILD_OUTPUT}"
 readonly CREATE_DOCKER_IMAGE_LOG="${BUILD_OUTPUT}/create-build-docker-image.log"
 echo "Logging to ${CREATE_DOCKER_IMAGE_LOG}"
 if ! "${PROJECT_ROOT}/ci/retry-command.sh" \
-       "${PROJECT_ROOT}/ci/kokoro/create-docker-image.sh" \
+       "${PROJECT_ROOT}/ci/kokoro/docker/create-docker-image.sh" \
          >"${CREATE_DOCKER_IMAGE_LOG}" 2>&1 </dev/null; then
   dump_log "${CREATE_DOCKER_IMAGE_LOG}"
   exit 1
