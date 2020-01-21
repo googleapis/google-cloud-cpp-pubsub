@@ -65,11 +65,6 @@ properly format your code.
 
 Apache 2.0; see [`LICENSE`](LICENSE) for details.
 
-## Release Notes
-
-### v0.1.x - 2020-??
-
-
 [GitHub-new-issue]: https://github.com/googleapis/google-cloud-cpp-pubsub/issues/new
 
 ## Versioning
