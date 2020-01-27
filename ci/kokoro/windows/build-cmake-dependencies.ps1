@@ -91,7 +91,7 @@ Write-Host -ForegroundColor Yellow "`n$(Get-Date -Format o) Building vcpkg packa
 $packages = @("zlib", "openssl",
               "protobuf", "c-ares",
               "grpc", "gtest",
-              "googleapis")
+              "googleapis", "google-cloud-cpp-common[test]")
 foreach ($pkg in $packages) {
     .\vcpkg.exe install "${pkg}:${env:VCPKG_TRIPLET}"
     if ($LastExitCode) {
