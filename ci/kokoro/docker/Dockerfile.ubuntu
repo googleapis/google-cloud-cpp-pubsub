@@ -57,5 +57,5 @@ RUN pip install --upgrade pip
 RUN pip install cmake_format==0.6.0
 
 WORKDIR /var/tmp/ci
-COPY install-bazel.sh /var/tmp/ci
+COPY . /var/tmp/ci
 RUN /var/tmp/ci/install-bazel.sh

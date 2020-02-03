@@ -161,9 +161,10 @@ Consider adding this option to your project's `.bazelrc` file.
 
 `google-cloud-cpp-pubsub` directly depends on the following libraries:
 
-| Library | Minimum version | Description |
-| ------- | --------------: | ----------- |
-| gRPC    | 1.26.x          | gRPC++ |
+| Library  | Minimum version | Description |
+| -------- | --------------: | ----------- |
+| protobuf | 3.11.3          | Some of the protos needed by Cloud Pub/Sub generate invalid code with protobuf <= 3.11.2 on Windows |
+| gRPC     | 1.26.x          | gRPC++ |
 | google-cloud-cpp-common   | 0.17.0 |
 
 Note that these libraries may also depend on other libraries. The following
