@@ -48,6 +48,7 @@ echo "================================================================"
 
 readonly BAZEL_BIN="/usr/local/bin/bazel"
 echo "Using Bazel in ${BAZEL_BIN}"
+"${BAZEL_BIN}" version
 
 bazel_args=("--test_output=errors" "--verbose_failures=true" "--keep_going")
 if [[ -n "${BAZEL_CONFIG}" ]]; then
