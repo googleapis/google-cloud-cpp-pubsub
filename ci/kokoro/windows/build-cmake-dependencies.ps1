@@ -22,6 +22,8 @@ if (-not (Test-Path env:CONFIG)) {
 }
 $CONFIG = $env:CONFIG
 
+$project_root = (Get-Item -Path ".\" -Verbose).FullName
+
 # Update or clone the 'vcpkg' package manager, this is a bit overly complicated,
 # but it works well on your workstation where you may want to run this script
 # multiple times while debugging vcpkg installs.  It also works on AppVeyor
@@ -62,7 +64,7 @@ if (Test-Path env:BUILD_CACHE) {
 }
 
 Write-Host -ForegroundColor Yellow "`n$(Get-Date -Format o) Bootstrap vcpkg."
-powershell -exec bypass scripts\bootstrap.ps1
+# powershell -exec bypass scripts\bootstrap.ps1
 if ($LastExitCode) {
   throw "Error bootstrapping vcpkg: $LastExitCode"
   Write-Host -ForegroundColor Red "bootstrap[1] failed"
@@ -80,9 +82,13 @@ if ($LastExitCode) {
     throw "vcpkg integrate failed with exit code $LastExitCode"
 }
 
+$vcpkg_flags=@(
+    "--triplet", "${env:VCPKG_TRIPLET}",
+    "--overlay-ports=${project_root}/ci/kokoro/windows/vcpkg-overlay")
+
 # Remove old versions of the packages.
 Write-Host -ForegroundColor Yellow "`n$(Get-Date -Format o) Cleanup old vcpkg package versions."
-.\vcpkg.exe remove --outdated --recurse
+.\vcpkg.exe remove ${vcpkg_flags} --outdated --recurse
 if ($LastExitCode) {
     throw "vcpkg remove --outdated failed with exit code $LastExitCode"
 }
@@ -93,7 +99,7 @@ $packages = @("zlib", "openssl",
               "grpc", "gtest",
               "googleapis", "google-cloud-cpp-common[test]")
 foreach ($pkg in $packages) {
-    .\vcpkg.exe install "${pkg}:${env:VCPKG_TRIPLET}"
+    .\vcpkg.exe install ${vcpkg_flags} "${pkg}"
     if ($LastExitCode) {
         throw "vcpkg install $pkg failed with exit code $LastExitCode"
     }
