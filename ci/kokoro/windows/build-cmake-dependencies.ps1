@@ -64,7 +64,7 @@ if (Test-Path env:BUILD_CACHE) {
 }
 
 Write-Host -ForegroundColor Yellow "`n$(Get-Date -Format o) Bootstrap vcpkg."
-# powershell -exec bypass scripts\bootstrap.ps1
+powershell -exec bypass scripts\bootstrap.ps1
 if ($LastExitCode) {
   throw "Error bootstrapping vcpkg: $LastExitCode"
   Write-Host -ForegroundColor Red "bootstrap[1] failed"
