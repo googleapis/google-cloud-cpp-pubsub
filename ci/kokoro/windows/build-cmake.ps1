@@ -54,7 +54,7 @@ if (Test-Path env:RUNNING_CI) {
     # temporary files.
     $env:TEMP="T:\tmp"
 }
-ctest --output-on-failure -C $env:CONFIG
+ctest --output-on-failure -LE integration-tests -C $env:CONFIG
 if ($LastExitCode) {
     throw "ctest failed with exit code $LastExitCode"
 }
