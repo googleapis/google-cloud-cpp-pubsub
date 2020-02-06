@@ -30,6 +30,10 @@ class ConnectionOptions {
   explicit ConnectionOptions(
       std::shared_ptr<grpc::ChannelCredentials> credentials);
 
+  ConnectionOptions& set_endpoint(std::string v) {
+    endpoint_ = std::move(v);
+    return *this;
+  }
   std::string const& endpoint() const { return endpoint_; }
 
   std::shared_ptr<grpc::ChannelCredentials> credentials() const {

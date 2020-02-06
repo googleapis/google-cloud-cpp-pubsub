@@ -58,6 +58,34 @@ TEST(PublisherAdminIntegrationTest, PublisherCRUD) {
   ASSERT_STATUS_OK(delete_response);
 }
 
+TEST(PublisherAdminIntegrationTest, CreateFailure) {
+  auto connection_options =
+      ConnectionOptions(grpc::InsecureChannelCredentials())
+          .set_endpoint("localhost:1");
+  auto publisher =
+      pubsub_internal::CreateDefaultPublisherStub(ConnectionOptions{}, 0);
+  auto create_response = [&publisher] {
+    google::pubsub::v1::Topic request;
+    grpc::ClientContext context;
+    return publisher->CreateTopic(context, request);
+  }();
+  ASSERT_FALSE(create_response);
+}
+
+TEST(PublisherAdminIntegrationTest, DeleteFailure) {
+  auto connection_options =
+      ConnectionOptions(grpc::InsecureChannelCredentials())
+          .set_endpoint("localhost:1");
+  auto publisher =
+      pubsub_internal::CreateDefaultPublisherStub(ConnectionOptions{}, 0);
+  auto delete_response = [&publisher] {
+    google::pubsub::v1::DeleteTopicRequest request;
+    grpc::ClientContext context;
+    return publisher->DeleteTopic(context, request);
+  }();
+  ASSERT_FALSE(delete_response.ok());
+}
+
 }  // namespace
 }  // namespace GOOGLE_CLOUD_CPP_PUBSUB_NS
 }  // namespace pubsub
