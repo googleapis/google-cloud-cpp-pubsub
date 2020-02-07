@@ -112,11 +112,19 @@ elif [[ "${BUILD_NAME}" = "tsan" ]]; then
   export CC=clang
   export CXX=clang++
   : "${RUN_INTEGRATION_TESTS:=$DEFAULT_RUN_INTEGRATION_TESTS}"
-elif [[ "${BUILD_NAME}" = "noex" ]]; then
+elif [[ "${BUILD_NAME}" = "no-exceptions" ]]; then
   export DISTRO=fedora-install
   export DISTRO_VERSION=30
   export CMAKE_FLAGS="-DGOOGLE_CLOUD_CPP_PUBSUB_ENABLE_CXX_EXCEPTIONS=no"
   in_docker_script="ci/kokoro/docker/build-in-docker-cmake.sh"
+elif [[ "${BUILD_NAME}" = "libcxx" ]]; then
+  # Compile using libc++. This is easier to install on Fedora.
+  export DISTRO=fedora-install
+  export DISTRO_VERSION=30
+  export CC=clang
+  export CXX=clang++
+  export BAZEL_CONFIG="libcxx"
+  in_docker_script="ci/kokoro/docker/build-in-docker-bazel.sh"
 elif [[ "${BUILD_NAME}" = "msan" ]]; then
   # We use Fedora for this build because (1) I was able to find instructions on
   # how to build libc++ with msan for that distribution, (2) Fedora has a

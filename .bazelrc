@@ -65,3 +65,9 @@ build:msan --cxxopt=-stdlib=libc++
 build:msan --linkopt=-stdlib=libc++
 build:msan --linkopt=-lc++
 build:msan --linkopt=-lc++abi
+
+# --config libcxx: Compile and link using libc++.
+build:libcxx --cxxopt=-stdlib=libc++
+build:libcxx --linkopt=-stdlib=libc++
+build:libcxx --linkopt=-lc++
+build:libcxx --linkopt=-lc++abi
