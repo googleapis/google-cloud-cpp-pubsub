@@ -89,8 +89,6 @@ add_library(
     ${CMAKE_CURRENT_BINARY_DIR}/internal/build_info.cc
     connection_options.cc
     connection_options.h
-        publisher_connection.cc
-        publisher_connection.h
     internal/build_info.h
     internal/compiler_info.cc
     internal/compiler_info.h
@@ -98,6 +96,8 @@ add_library(
     internal/publisher_stub.h
     internal/user_agent_prefix.cc
     internal/user_agent_prefix.h
+    publisher_connection.cc
+    publisher_connection.h
     version.cc
     version.h
     version_info.h)
