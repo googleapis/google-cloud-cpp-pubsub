@@ -23,7 +23,7 @@ RUN dnf makecache && \
         clang clang-tools-extra cmake doxygen findutils gcc-c++ git \
         grpc-devel grpc-plugins libcxx-devel libcxxabi-devel libcurl-devel \
         make openssl-devel pkgconfig protobuf-compiler python-pip ShellCheck \
-        tar w3m wget zlib-devel
+        tar unzip w3m wget which zlib-devel
 
 # Install the the buildifier tool, which does not compile with the default
 # golang compiler for Ubuntu 16.04 and Ubuntu 18.04.
@@ -92,3 +92,7 @@ RUN cmake -H. -Bcmake-out \
     -DGOOGLE_CLOUD_CPP_TESTING_UTIL_ENABLE_INSTALL=ON
 RUN cmake --build cmake-out -- -j $(nproc)
 RUN cmake --build cmake-out --target install
+
+WORKDIR /var/tmp/ci
+COPY . /var/tmp/ci
+RUN /var/tmp/ci/install-bazel.sh
