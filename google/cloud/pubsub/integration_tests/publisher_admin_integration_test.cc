@@ -59,7 +59,7 @@ TEST(PublisherAdminIntegrationTest, CreateFailure) {
   auto create_response = publisher->CreateTopic(
       {"invalid-project", "invalid-topic",
        /*.labels*/ {{"my-label", "my-value"}},
-       /*.allowed_persistent_regions*/ {{"us-central1", "us-west1"}},
+       /*.allowed_persistent_regions*/ {"us-central1", "us-west1"},
        /*.kms_key_name*/ {}});
   ASSERT_FALSE(create_response);
 }
