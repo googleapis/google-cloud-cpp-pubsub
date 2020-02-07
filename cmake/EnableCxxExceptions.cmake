@@ -19,17 +19,18 @@ option(GOOGLE_CLOUD_CPP_PUBSUB_ENABLE_CXX_EXCEPTIONS
 
 # If the user disabled C++ exceptions we should give them a heads up about the
 # consequences.
-if(NOT GOOGLE_CLOUD_CPP_PUBSUB_ENABLE_CXX_EXCEPTIONS)
-  message(
-    WARNING "C++ Exceptions disabled, any operation that normally"
+if (NOT GOOGLE_CLOUD_CPP_PUBSUB_ENABLE_CXX_EXCEPTIONS)
+    message(
+        WARNING
+            "C++ Exceptions disabled, any operation that normally"
             " raises exceptions will instead log the error and call"
             " std::abort().  In addition, some examples and tests will not be"
             " compiled.")
-  if(MSVC)
-    set(GOOGLE_CLOUD_CPP_PUBSUB_EXCEPTIONS_FLAG "/EHs-c-")
-  else()
-    set(GOOGLE_CLOUD_CPP_PUBSUB_EXCEPTIONS_FLAG "-fno-exceptions")
-  endif()
-else()
-  set(GOOGLE_CLOUD_CPP_PUBSUB_EXCEPTIONS_FLAG "")
-endif()
+    if (MSVC)
+        set(GOOGLE_CLOUD_CPP_PUBSUB_EXCEPTIONS_FLAG "/EHs-c-")
+    else ()
+        set(GOOGLE_CLOUD_CPP_PUBSUB_EXCEPTIONS_FLAG "-fno-exceptions")
+    endif ()
+else ()
+    set(GOOGLE_CLOUD_CPP_PUBSUB_EXCEPTIONS_FLAG "")
+endif ()

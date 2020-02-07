@@ -13,6 +13,7 @@
 # limitations under the License.
 
 package(default_visibility = ["//visibility:public"])
+
 licenses(["notice"])  # Apache 2.0
 
 load("@com_github_grpc_grpc//bazel:cc_grpc_library.bzl", "cc_grpc_library")
@@ -25,19 +26,19 @@ cc_proto_library(
 cc_grpc_library(
     name = "grpc_pubsub_proto",
     srcs = ["//google/pubsub/v1:pubsub_proto"],
-    deps = [":pubsub_cc_proto"],
     grpc_only = True,
-    well_known_protos = True,
     use_external = True,
+    well_known_protos = True,
+    deps = [":pubsub_cc_proto"],
 )
 
 cc_library(
     name = "pubsub_protos",
+    includes = ["."],
     deps = [
         ":grpc_pubsub_proto",
         "@com_github_grpc_grpc//:grpc++",
     ],
-    includes = ["."],
 )
 
 cc_library(
@@ -46,7 +47,7 @@ cc_library(
         ".",
     ],
     deps = [
-        "@com_github_grpc_grpc//:grpc++",
         "//google/rpc:status_cc_proto",
+        "@com_github_grpc_grpc//:grpc++",
     ],
 )

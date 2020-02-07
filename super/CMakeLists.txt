@@ -32,24 +32,30 @@ set_external_project_vars()
 
 include(ExternalProject)
 ExternalProject_Add(
-  gcp-pubsub
-  DEPENDS google-cloud-cpp-common-project googletest-project googleapis-project
-  EXCLUDE_FROM_ALL OFF
-  BUILD_ALWAYS 1
-  PREFIX "${CMAKE_BINARY_DIR}/build"
-  INSTALL_DIR "${GOOGLE_CLOUD_CPP_EXTERNAL_PREFIX}"
-  SOURCE_DIR "${GOOGLE_CLOUD_CPP_PUBSUB_ROOT}"
-  LIST_SEPARATOR |
-  CMAKE_ARGS ${GOOGLE_CLOUD_CPP_EXTERNAL_PROJECT_CMAKE_FLAGS}
-             -DCMAKE_PREFIX_PATH=${GOOGLE_CLOUD_CPP_PREFIX_PATH}
-             -DCMAKE_INSTALL_RPATH=${GOOGLE_CLOUD_CPP_INSTALL_RPATH}
-             -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
-  BUILD_COMMAND ${CMAKE_COMMAND} --build <BINARY_DIR> ${PARALLEL}
-  TEST_COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure -LE integration-tests
-  LOG_DOWNLOAD OFF
-  LOG_CONFIGURE OFF
-  LOG_BUILD OFF
-  LOG_INSTALL OFF)
+    gcp-pubsub
+    DEPENDS google-cloud-cpp-common-project googletest-project
+            googleapis-project
+    EXCLUDE_FROM_ALL
+        OFF
+        BUILD_ALWAYS
+        1
+    PREFIX "${CMAKE_BINARY_DIR}/build"
+    INSTALL_DIR
+        "${GOOGLE_CLOUD_CPP_EXTERNAL_PREFIX}"
+        SOURCE_DIR
+        "${GOOGLE_CLOUD_CPP_PUBSUB_ROOT}"
+    LIST_SEPARATOR |
+    CMAKE_ARGS ${GOOGLE_CLOUD_CPP_EXTERNAL_PROJECT_CMAKE_FLAGS}
+               -DCMAKE_PREFIX_PATH=${GOOGLE_CLOUD_CPP_PREFIX_PATH}
+               -DCMAKE_INSTALL_RPATH=${GOOGLE_CLOUD_CPP_INSTALL_RPATH}
+               -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
+    BUILD_COMMAND ${CMAKE_COMMAND} --build <BINARY_DIR> ${PARALLEL}
+    TEST_COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure -LE
+                 integration-tests
+    LOG_DOWNLOAD OFF
+    LOG_CONFIGURE OFF
+    LOG_BUILD OFF
+    LOG_INSTALL OFF)
 
 # This makes it easy to compile the dependencies before the code.
 add_custom_target(project-dependencies)

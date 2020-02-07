@@ -27,7 +27,7 @@ RUN dnf makecache && \
 
 # Install the the buildifier tool, which does not compile with the default
 # golang compiler for Ubuntu 16.04 and Ubuntu 18.04.
-RUN wget -q -O /usr/bin/buildifier https://github.com/bazelbuild/buildtools/releases/download/0.17.2/buildifier
+RUN wget -q -O /usr/bin/buildifier https://github.com/bazelbuild/buildtools/releases/download/0.29.0/buildifier
 RUN chmod 755 /usr/bin/buildifier
 
 # Install cmake_format to automatically format the CMake list files.
@@ -36,7 +36,7 @@ RUN chmod 755 /usr/bin/buildifier
 # "latest" version is updated, and we do not want the builds to break just
 # because some third party changed something.
 RUN pip install --upgrade pip
-RUN pip install cmake_format==0.6.0
+RUN pip install cmake_format==0.6.8
 
 # There is no Fedora package for CRC32C, download and install from source.
 WORKDIR /var/tmp/build
