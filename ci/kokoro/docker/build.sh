@@ -74,7 +74,7 @@ if [[ "${BUILD_NAME}" = "clang-tidy" ]]; then
   # Compile with clang-tidy(1) turned on. The build treats clang-tidy warnings
   # as errors.
   export DISTRO=fedora-install
-  export DISTRO_VERSION=30
+  export DISTRO_VERSION=31
   export CC=clang
   export CXX=clang++
   export BUILD_TYPE=Debug
@@ -120,7 +120,7 @@ elif [[ "${BUILD_NAME}" = "no-exceptions" ]]; then
 elif [[ "${BUILD_NAME}" = "libcxx" ]]; then
   # Compile using libc++. This is easier to install on Fedora.
   export DISTRO=fedora-install
-  export DISTRO_VERSION=30
+  export DISTRO_VERSION=31
   export CC=clang
   export CXX=clang++
   export BAZEL_CONFIG="libcxx"
@@ -137,7 +137,7 @@ elif [[ "${BUILD_NAME}" = "msan" ]]; then
   : "${RUN_INTEGRATION_TESTS:=$DEFAULT_RUN_INTEGRATION_TESTS}"
 elif [[ "${BUILD_NAME}" = "cmake" ]]; then
   export DISTRO=fedora-install
-  export DISTRO_VERSION=30
+  export DISTRO_VERSION=31
   in_docker_script="ci/kokoro/docker/build-in-docker-cmake.sh"
 elif [[ "${BUILD_NAME}" = "cmake-super" ]]; then
   export CMAKE_SOURCE_DIR="super"
@@ -167,14 +167,14 @@ elif [[ "${BUILD_NAME}" = "clang-3.8" ]]; then
 elif [[ "${BUILD_NAME}" = "cxx17" ]]; then
   export GOOGLE_CLOUD_CPP_CXX_STANDARD=17
   export DISTRO=fedora-install
-  export DISTRO_VERSION=30
+  export DISTRO_VERSION=31
   export CC=gcc
   export CXX=g++
   in_docker_script="ci/kokoro/docker/build-in-docker-cmake.sh"
 elif [[ "${BUILD_NAME}" = "coverage" ]]; then
   export BUILD_TYPE=Coverage
   export DISTRO=fedora-install
-  export DISTRO_VERSION=30
+  export DISTRO_VERSION=31
   : "${RUN_INTEGRATION_TESTS:=$DEFAULT_RUN_INTEGRATION_TESTS}"
   export RUN_SLOW_INTEGRATION_TESTS=yes
   in_docker_script="ci/kokoro/docker/build-in-docker-cmake.sh"
@@ -184,7 +184,7 @@ elif [[ "${BUILD_NAME}" = "bazel-dependency" ]]; then
   in_docker_script="ci/kokoro/docker/build-in-docker-bazel-dependency.sh"
 elif [[ "${BUILD_NAME}" = "check-api" ]] || [[ "${BUILD_NAME}" = "update-api" ]]; then
   export DISTRO=fedora-install
-  export DISTRO_VERSION=30
+  export DISTRO_VERSION=31
   export CHECK_API=yes
   export TEST_INSTALL=yes
   export CMAKE_FLAGS=-DBUILD_SHARED_LIBS=yes

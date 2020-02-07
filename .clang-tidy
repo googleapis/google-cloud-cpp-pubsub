@@ -4,6 +4,8 @@
 # Disabled:
 #  -google-readability-namespace-comments the *_CLIENT_NS is a macro, and
 #   clang-tidy fails to match it against the initial value.
+#  -modernize-use-trailing-return-type clang-tidy aggressively recommends
+#   using `auto Foo() -> std::string { return ...; }` which does not seem right
 Checks: >
   -*,
   bugprone-*,
@@ -17,6 +19,7 @@ Checks: >
   -google-runtime-references,
   -misc-non-private-member-variables-in-classes,
   -readability-named-parameter,
+  -modernize-use-trailing-return-type,
   -readability-braces-around-statements,
   -readability-magic-numbers
 

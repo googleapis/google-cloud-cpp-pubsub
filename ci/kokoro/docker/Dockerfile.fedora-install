@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ARG DISTRO_VERSION=30
+ARG DISTRO_VERSION=31
 FROM fedora:${DISTRO_VERSION}
 
 # Fedora includes packages for gRPC, libcurl, and OpenSSL that are recent enough
@@ -20,7 +20,7 @@ FROM fedora:${DISTRO_VERSION}
 # tools to compile the dependencies:
 RUN dnf makecache && \
     dnf install -y abi-compliance-checker abi-dumper \
-        clang clang-tools-extra cmake doxygen findutils gcc-c++ git \
+        clang clang-tools-extra cmake diffutils doxygen findutils gcc-c++ git \
         grpc-devel grpc-plugins libcxx-devel libcxxabi-devel libcurl-devel \
         make openssl-devel pkgconfig protobuf-compiler python-pip ShellCheck \
         tar unzip w3m wget which zlib-devel
