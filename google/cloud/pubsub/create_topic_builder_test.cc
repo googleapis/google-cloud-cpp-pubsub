@@ -97,10 +97,10 @@ TEST(Topic, AddAllowedPersistenceRegion) {
   EXPECT_THAT(actual, IsProtoEqual(expected));
 }
 
-TEST(Topic, ClearMessageStoragePolicy) {
+TEST(Topic, ClearAllowedPersistenceRegions) {
   auto const actual = CreateTopicBuilder(Topic("test-project", "test-topic"))
                           .add_allowed_persistence_region("us-central1")
-                          .clear_message_storage_policy()
+                          .clear_allowed_persistence_regions()
                           .add_allowed_persistence_region("us-west1")
                           .as_proto();
   google::pubsub::v1::Topic expected;

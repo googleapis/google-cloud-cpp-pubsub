@@ -89,7 +89,6 @@ add_library(
     ${CMAKE_CURRENT_BINARY_DIR}/internal/build_info.cc
     connection_options.cc
     connection_options.h
-    create_topic_builder.cc
     create_topic_builder.h
     internal/build_info.h
     internal/compiler_info.cc

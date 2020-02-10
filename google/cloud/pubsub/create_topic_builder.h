@@ -49,8 +49,9 @@ class CreateTopicBuilder {
         std::move(region));
     return *this;
   }
-  CreateTopicBuilder& clear_message_storage_policy() {
-    proto_.clear_message_storage_policy();
+  CreateTopicBuilder& clear_allowed_persistence_regions() {
+    proto_.mutable_message_storage_policy()
+        ->clear_allowed_persistence_regions();
     return *this;
   }
 
