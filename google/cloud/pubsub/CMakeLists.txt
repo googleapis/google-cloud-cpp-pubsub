@@ -91,7 +91,6 @@ add_library(
     connection_options.h
     create_topic_builder.cc
     create_topic_builder.h
-    create_topic_builder_test.cc
     internal/build_info.h
     internal/compiler_info.cc
     internal/compiler_info.h
