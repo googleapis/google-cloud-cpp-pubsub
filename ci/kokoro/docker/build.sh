@@ -83,14 +83,12 @@ if [[ "${BUILD_NAME}" = "clang-tidy" ]]; then
   export CLANG_TIDY=yes
   export TEST_INSTALL=yes
   in_docker_script="ci/kokoro/docker/build-in-docker-cmake.sh"
-elif [[ "${BUILD_NAME}" = "publish-refdocs" ]]; then
+elif [[ "${BUILD_NAME}" = "coverage" ]]; then
+  export BUILD_TYPE=Coverage
   export DISTRO=fedora-install
-  export DISTRO_VERSION=30
-  export CC=clang
-  export CXX=clang++
-  export BUILD_TYPE=Debug
-  export GENERATE_DOCS=yes
-  export RUN_INTEGRATION_TESTS=no
+  export DISTRO_VERSION=31
+  : "${RUN_INTEGRATION_TESTS:=$DEFAULT_RUN_INTEGRATION_TESTS}"
+  export RUN_SLOW_INTEGRATION_TESTS=yes
   in_docker_script="ci/kokoro/docker/build-in-docker-cmake.sh"
 elif [[ "${BUILD_NAME}" = "integration" ]]; then
   export CC=gcc
@@ -102,13 +100,23 @@ elif [[ "${BUILD_NAME}" = "asan" ]]; then
   export CC=clang
   export CXX=clang++
   : "${RUN_INTEGRATION_TESTS:=$DEFAULT_RUN_INTEGRATION_TESTS}"
-elif [[ "${BUILD_NAME}" = "ubsan" ]]; then
-  export BAZEL_CONFIG=ubsan
+elif [[ "${BUILD_NAME}" = "msan" ]]; then
+  # We use Fedora for this build because (1) I was able to find instructions on
+  # how to build libc++ with msan for that distribution, (2) Fedora has a
+  # relatively recent version of Clang (8.0 as I write this).
+  export DISTRO=fedora-libcxx-msan
+  export DISTRO_VERSION=30
+  export BAZEL_CONFIG=msan
   export CC=clang
   export CXX=clang++
   : "${RUN_INTEGRATION_TESTS:=$DEFAULT_RUN_INTEGRATION_TESTS}"
 elif [[ "${BUILD_NAME}" = "tsan" ]]; then
   export BAZEL_CONFIG=tsan
+  export CC=clang
+  export CXX=clang++
+  : "${RUN_INTEGRATION_TESTS:=$DEFAULT_RUN_INTEGRATION_TESTS}"
+elif [[ "${BUILD_NAME}" = "ubsan" ]]; then
+  export BAZEL_CONFIG=ubsan
   export CC=clang
   export CXX=clang++
   : "${RUN_INTEGRATION_TESTS:=$DEFAULT_RUN_INTEGRATION_TESTS}"
@@ -125,25 +133,6 @@ elif [[ "${BUILD_NAME}" = "libcxx" ]]; then
   export CXX=clang++
   export BAZEL_CONFIG="libcxx"
   in_docker_script="ci/kokoro/docker/build-in-docker-bazel.sh"
-elif [[ "${BUILD_NAME}" = "msan" ]]; then
-  # We use Fedora for this build because (1) I was able to find instructions on
-  # how to build libc++ with msan for that distribution, (2) Fedora has a
-  # relatively recent version of Clang (8.0 as I write this).
-  export DISTRO=fedora-libcxx-msan
-  export DISTRO_VERSION=30
-  export BAZEL_CONFIG=msan
-  export CC=clang
-  export CXX=clang++
-  : "${RUN_INTEGRATION_TESTS:=$DEFAULT_RUN_INTEGRATION_TESTS}"
-elif [[ "${BUILD_NAME}" = "cmake" ]]; then
-  export DISTRO=fedora-install
-  export DISTRO_VERSION=31
-  in_docker_script="ci/kokoro/docker/build-in-docker-cmake.sh"
-elif [[ "${BUILD_NAME}" = "cmake-super" ]]; then
-  export CMAKE_SOURCE_DIR="super"
-  export BUILD_TYPE=Release
-  export CMAKE_FLAGS=-DBUILD_SHARED_LIBS=yes
-  in_docker_script="ci/kokoro/docker/build-in-docker-cmake.sh"
 elif [[ "${BUILD_NAME}" = "gcc-4.8" ]]; then
   # The oldest version of GCC we support is 4.8, this build checks the code
   # against that version. The use of CentOS 7 for that build is not a
@@ -171,17 +160,45 @@ elif [[ "${BUILD_NAME}" = "cxx17" ]]; then
   export CC=gcc
   export CXX=g++
   in_docker_script="ci/kokoro/docker/build-in-docker-cmake.sh"
-elif [[ "${BUILD_NAME}" = "coverage" ]]; then
-  export BUILD_TYPE=Coverage
+elif [[ "${BUILD_NAME}" = "gcc-9" ]]; then
+  # Compile under fedora:31. This distro uses gcc-9.
   export DISTRO=fedora-install
   export DISTRO_VERSION=31
-  : "${RUN_INTEGRATION_TESTS:=$DEFAULT_RUN_INTEGRATION_TESTS}"
-  export RUN_SLOW_INTEGRATION_TESTS=yes
+  export CC=gcc
+  export CXX=g++
+  in_docker_script="ci/kokoro/docker/build-in-docker-cmake.sh"
+elif [[ "${BUILD_NAME}" = "clang-9" ]]; then
+  # Compile under fedora:31. This distro uses clang-9.
+  export DISTRO=fedora-install
+  export DISTRO_VERSION=31
+  export CC=clang
+  export CXX=clang++
+  in_docker_script="ci/kokoro/docker/build-in-docker-cmake.sh"
+elif [[ "${BUILD_NAME}" = "ninja" ]]; then
+  # Compiling with Ninja can catch bugs that may not be caught using Make.
+  export DISTRO=ubuntu
+  export DISTRO_VERSION=18.04
+  export CMAKE_SOURCE_DIR="super"
+  export USE_NINJA=yes
   in_docker_script="ci/kokoro/docker/build-in-docker-cmake.sh"
 elif [[ "${BUILD_NAME}" = "bazel-dependency" ]]; then
   export DISTRO=ubuntu
   export DISTRO_VERSION=18.04
   in_docker_script="ci/kokoro/docker/build-in-docker-bazel-dependency.sh"
+elif [[ "${BUILD_NAME}" = "no-tests" ]]; then
+  # Verify that the code can be compiled without unit tests. This is helpful for
+  # package maintainers, where the cost of running the tests for a fixed version
+  # is too high.
+  export DISTRO=fedora-install
+  export DISTRO_VERSION=31
+  export BUILD_TESTING=no
+  export CHECK_STYLE=yes
+  in_docker_script="ci/kokoro/docker/build-in-docker-cmake.sh"
+elif [[ "${BUILD_NAME}" = "cmake-super" ]]; then
+  export CMAKE_SOURCE_DIR="super"
+  export BUILD_TYPE=Release
+  export CMAKE_FLAGS=-DBUILD_SHARED_LIBS=yes
+  in_docker_script="ci/kokoro/docker/build-in-docker-cmake.sh"
 elif [[ "${BUILD_NAME}" = "check-api" ]] || [[ "${BUILD_NAME}" = "update-api" ]]; then
   export DISTRO=fedora-install
   export DISTRO_VERSION=31
@@ -192,6 +209,15 @@ elif [[ "${BUILD_NAME}" = "check-api" ]] || [[ "${BUILD_NAME}" = "update-api" ]]
   if [[ "${BUILD_NAME}" = "update-api" ]]; then
     export UPDATE_API=yes
   fi
+  in_docker_script="ci/kokoro/docker/build-in-docker-cmake.sh"
+elif [[ "${BUILD_NAME}" = "publish-refdocs" ]]; then
+  export DISTRO=fedora-install
+  export DISTRO_VERSION=30
+  export CC=clang
+  export CXX=clang++
+  export BUILD_TYPE=Debug
+  export GENERATE_DOCS=yes
+  export RUN_INTEGRATION_TESTS=no
   in_docker_script="ci/kokoro/docker/build-in-docker-cmake.sh"
 else
   echo "Unknown BUILD_NAME (${BUILD_NAME}). Fix the Kokoro .cfg file."
@@ -300,6 +326,9 @@ docker_flags=(
     # If set, pass -DGOOGLE_CLOUD_CPP_CXX_STANDARD=<value> to CMake.
     "--env" "GOOGLE_CLOUD_CPP_CXX_STANDARD=${GOOGLE_CLOUD_CPP_CXX_STANDARD:-}"
 
+    # If set, enable the Ninja generator with CMake.
+    "--env" "USE_NINJA=${USE_NINJA:-}"
+
     # The type of the build for CMake
     "--env" "BUILD_TYPE=${BUILD_TYPE:-Release}"
 
@@ -385,6 +414,7 @@ else
   )
 fi
 
+echo "    running: docker run ${docker_flags[@]} ${IMAGE}:tip ${commands[@]}"
 sudo docker run "${docker_flags[@]}" "${IMAGE}:tip" "${commands[@]}"
 
 exit_status=$?

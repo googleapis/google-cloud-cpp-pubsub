@@ -56,6 +56,15 @@ cp -r ci/test-install /var/tmp/test-install
 cp google/cloud/pubsub/integration_tests/pubsub_install_test.cc /var/tmp/test-install
 cd /var/tmp/test-install
 
+echo "================================================================"
+echo "Fetching dependencies $(date)"
+echo "================================================================"
+"${PROJECT_ROOT}/ci/retry-command.sh" \
+    "${BAZEL_BIN}" fetch -- //...:all
+
+echo "================================================================"
+echo "Compiling tests program $(date)"
+echo "================================================================"
 "${BAZEL_BIN}" build  "${bazel_args[@]}" \
     -- //...:all
 
