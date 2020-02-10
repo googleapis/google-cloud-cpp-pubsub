@@ -64,6 +64,9 @@ if [[ "${GOOGLE_CLOUD_CPP_CXX_STANDARD:-}" != "" ]]; then
   cmake_flags+=(
     "-DGOOGLE_CLOUD_CPP_CXX_STANDARD=${GOOGLE_CLOUD_CPP_CXX_STANDARD}")
 fi
+if [[ "${USE_NINJA:-}" == "yes" ]]; then
+  cmake_flags+=( "-GNinja" )
+fi
 
 # We disable the shellcheck warning because we want ${CMAKE_FLAGS} to expand as
 # separate arguments.
