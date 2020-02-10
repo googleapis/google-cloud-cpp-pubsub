@@ -414,7 +414,10 @@ else
   )
 fi
 
-echo "    running: docker run ${docker_flags[@]} ${IMAGE}:tip ${commands[@]}"
+echo "    running: docker run" \
+    "${docker_flags[@]}" \
+    "${IMAGE}:tip" \
+    "${commands[@]}"
 sudo docker run "${docker_flags[@]}" "${IMAGE}:tip" "${commands[@]}"
 
 exit_status=$?
