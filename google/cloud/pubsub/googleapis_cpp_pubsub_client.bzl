@@ -18,6 +18,7 @@
 
 googleapis_cpp_pubsub_client_hdrs = [
     "connection_options.h",
+    "create_topic_builder.h",
     "internal/build_info.h",
     "internal/compiler_info.h",
     "internal/publisher_stub.h",
@@ -30,6 +31,8 @@ googleapis_cpp_pubsub_client_hdrs = [
 
 googleapis_cpp_pubsub_client_srcs = [
     "connection_options.cc",
+    "create_topic_builder.cc",
+    "create_topic_builder_test.cc",
     "internal/compiler_info.cc",
     "internal/publisher_stub.cc",
     "internal/user_agent_prefix.cc",
