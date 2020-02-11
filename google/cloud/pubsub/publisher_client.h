@@ -83,6 +83,20 @@ class PublisherClient {
   }
 
   /**
+   * List all the topics for a given project id.
+   *
+   * @par Idempotency
+   * This operation is read-only and therefore it is always treated as
+   * idempotent.
+   *
+   * @par Example
+   * @snippet samples.cc list-topics
+   */
+  ListTopicsRange ListTopics(std::string project_id) {
+    return connection_->ListTopics({std::move(project_id)});
+  }
+
+  /**
    * Delete an existing topic in Cloud Pub/Sub.
    *
    * @par Idempotency

@@ -25,6 +25,9 @@ namespace pubsub {
 inline namespace GOOGLE_CLOUD_CPP_PUBSUB_NS {
 namespace {
 
+using ::testing::Contains;
+using ::testing::Not;
+
 std::string RandomTopicId(google::cloud::internal::DefaultPRNG& generator,
                           std::string const& prefix = "cloud-cpp-testing-") {
   constexpr int kMaxRandomTopicSuffixLength = 32;
@@ -38,16 +41,35 @@ TEST(PublisherAdminIntegrationTest, PublisherCRUD) {
       google::cloud::internal::GetEnv("GOOGLE_CLOUD_PROJECT").value_or("");
   ASSERT_FALSE(project_id.empty());
 
+  auto topic_names = [](PublisherClient client, std::string const& project_id) {
+    std::vector<std::string> names;
+    for (auto& topic : client.ListTopics(project_id)) {
+      EXPECT_STATUS_OK(topic);
+      if (!topic) break;
+      names.push_back(topic->name());
+    }
+    return names;
+  };
+
   auto generator = google::cloud::internal::MakeDefaultPRNG();
   Topic topic(project_id, RandomTopicId(generator));
 
   auto publisher =
       PublisherClient(MakePublisherConnection(ConnectionOptions{}));
+
+  EXPECT_THAT(topic_names(publisher, project_id),
+              Not(Contains(topic.FullName())));
+
   auto create_response = publisher.CreateTopic(CreateTopicBuilder(topic));
   ASSERT_STATUS_OK(create_response);
 
-  auto delete_response = publisher.DeleteTopic(std::move(topic));
+  EXPECT_THAT(topic_names(publisher, project_id), Contains(topic.FullName()));
+
+  auto delete_response = publisher.DeleteTopic(topic);
   ASSERT_STATUS_OK(delete_response);
+
+  EXPECT_THAT(topic_names(publisher, project_id),
+              Not(Contains(topic.FullName())));
 }
 
 TEST(PublisherAdminIntegrationTest, CreateFailure) {
