@@ -56,8 +56,10 @@ echo
 echo "================================================================"
 for repeat in 1 2 3; do
   echo "Fetch bazel dependencies at $(date) [${repeat}/3]."
-  if "${BAZEL_BIN}" fetch -- //google/cloud/...:all; then
+  if "${BAZEL_BIN}" fetch -- //google/cloud/...; then
     break;
+  else
+    echo "bazel fetch failed with $?"
   fi
 done
 
