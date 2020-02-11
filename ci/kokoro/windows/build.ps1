@@ -46,6 +46,21 @@ the KOKORO_JOB_NAME environment variable.
 "@
 }
 
+if (Test-Path env:KOKORO_GFILE_DIR) {
+    $config_file = "${env:KOKORO_GFILE_DIR}/pubsub-integration-tests-config.ps1"
+    if (Test-Path "${config_file}") {
+        Write-Host -ForegroundColor Yellow "`n$(Get-Date -Format o) Loading integration tests config"
+        . "${config_file}"
+        ${env:GOOGLE_APPLICATION_CREDENTIALS}="${env:KOKORO_GFILE_DIR}/pubsub-credentials.json"
+        ${env:GOOGLE_CLOUD_CPP_AUTO_RUN_EXAMPLES}="yes"
+        (New-Object System.Net.WebClient).Downloadfile(
+            'https://raw.githubusercontent.com/grpc/grpc/master/etc/roots.pem',
+             "${env:KOKORO_GFILE_DIR}/roots.pem")
+        ${env:GRPC_DEFAULT_SSL_ROOTS_FILE_PATH}="${env:KOKORO_GFILE_DIR}/roots.pem"
+        ${env:RUN_INTEGRATION_TESTS}="true"
+    }
+}
+
 if ($BuildName -eq "cmake") {
     $env:CONFIG = "Debug"
     $env:GENERATOR = "Ninja"
