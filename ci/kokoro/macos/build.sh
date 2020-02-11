@@ -78,8 +78,9 @@ if [[ -n "${KOKORO_GFILE_DIR:-}" ]] &&
   #    https://github.com/grpc/grpc/pull/16246
   # But it was closed without being merged, and there are open bugs:
   #    https://github.com/grpc/grpc/issues/16571
-  echo "    Getting roots.pem for gRPC."
-  wget -q https://raw.githubusercontent.com/grpc/grpc/master/etc/roots.pem
+  echo "================================================================"
+  echo "Getting roots.pem for gRPC $(date)."
+  wget -q -c https://raw.githubusercontent.com/grpc/grpc/master/etc/roots.pem
   export GRPC_DEFAULT_SSL_ROOTS_FILE_PATH="$PWD/roots.pem"
 fi
 export RUN_INTEGRATION_TESTS
