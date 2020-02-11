@@ -61,7 +61,7 @@ class CreateTopicBuilder {
   }
 
   google::pubsub::v1::Topic as_proto() const& { return proto_; }
-  google::pubsub::v1::Topic as_proto() && { return std::move(proto_); }
+  google::pubsub::v1::Topic&& as_proto() && { return std::move(proto_); }
 
  private:
   google::pubsub::v1::Topic proto_;
