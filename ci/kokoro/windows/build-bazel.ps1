@@ -46,17 +46,34 @@ $env:BAZEL_VC="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC"
 }
 
 Write-Host -ForegroundColor Yellow "`n$(Get-Date -Format o) Compiling and running unit tests"
-bazel $common_flags test $test_flag `
+bazel $common_flags test $test_flags `
   --test_tag_filters=-integration-tests `
   -- //google/cloud/...:all
 if ($LastExitCode) {
     throw "bazel test failed with exit code $LastExitCode"
 }
 
-Write-Host -ForegroundColor Yellow "`n$(Get-Date -Format o) Running extra programs"
+Write-Host -ForegroundColor Yellow "`n$(Get-Date -Format o) Compiling extra programs"
 bazel $common_flags build $build_flags -- //google/cloud/...:all
 if ($LastExitCode) {
     throw "bazel test failed with exit code $LastExitCode"
+}
+
+if ((Test-Path env:RUN_INTEGRATION_TESTS) -and ($env:RUN_INTEGRATION_TESTS -eq "true")) {
+    Write-Host -ForegroundColor Yellow "`n$(Get-Date -Format o) Running integration tests $env:CONFIG"
+    $integration_flags=@(
+        "--test_env", "GOOGLE_CLOUD_PROJECT=${env:GOOGLE_CLOUD_PROJECT}",
+        "--test_env", "GOOGLE_APPLICATION_CREDENTIALS=${env:GOOGLE_APPLICATION_CREDENTIALS}",
+        "--test_env", "GOOGLE_CLOUD_CPP_AUTO_RUN_EXAMPLES=yes",
+        "--test_env", "RUN_SLOW_INTEGRATION_TESTS=${env:RUN_SLOW_INTEGRATION_TESTS}",
+        "--test_env", "GRPC_DEFAULT_SSL_ROOTS_FILE_PATH=${env:GRPC_DEFAULT_SSL_ROOTS_FILE_PATH}"
+    )
+    bazel $common_flags test $test_flags $integration_flags `
+      --test_tag_filters=integration-tests `
+      -- //google/cloud/...:all
+    if ($LastExitCode) {
+        throw "Integration tests failed with exit code $LastExitCode"
+    }
 }
 
 Write-Host -ForegroundColor Yellow "`n$(Get-Date -Format o) DONE"

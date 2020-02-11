@@ -59,4 +59,12 @@ if ($LastExitCode) {
     throw "ctest failed with exit code $LastExitCode"
 }
 
+if ((Test-Path env:RUN_INTEGRATION_TESTS) -and ($env:RUN_INTEGRATION_TESTS -eq "true")) {
+    Write-Host -ForegroundColor Yellow "`n$(Get-Date -Format o) Running integration tests $env:CONFIG"
+    ctest --output-on-failure -L integration-tests
+    if ($LastExitCode) {
+        throw "Integration tests failed with exit code $LastExitCode"
+    }
+}
+
 Write-Host -ForegroundColor Yellow "`n$(Get-Date -Format o) DONE"
