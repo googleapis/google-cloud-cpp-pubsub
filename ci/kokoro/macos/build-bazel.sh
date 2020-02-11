@@ -54,6 +54,17 @@ fi
 
 echo
 echo "================================================================"
+for repeat in 1 2 3; do
+  echo "Fetch bazel dependencies at $(date) [${repeat}/3]."
+  if "${BAZEL_BIN}" fetch -- //google/cloud/...; then
+    break;
+  else
+    echo "bazel fetch failed with $?"
+  fi
+done
+
+echo
+echo "================================================================"
 echo "Build and run unit tests at $(date)."
 "${BAZEL_BIN}" test \
     "${bazel_args[@]}" "--test_tag_filters=-integration-tests" \
