@@ -61,10 +61,9 @@ if [[ ${RUN_INTEGRATION_TESTS} == "yes" ]]; then
   echo "Running the integration tests $(date)"
   echo "================================================================"
   export GOOGLE_CLOUD_CPP_AUTO_RUN_EXAMPLES=yes
-
   # Run the integration tests, because we use a super build for macOS, the
   # binaries are in a weird location.
-  (cd "${BINARY_DIR}/build/google-cloud-cpp-pubsub/src/google-cloud-cpp-pubsub-as-external-build"; \
+  (cd "${BINARY_DIR}/build/src/gcp-pubsub-build"; \
    ctest \
       -L integration-tests \
       --output-on-failure -j "${NCPU}")
