@@ -77,8 +77,8 @@ int RunOneCommand(std::vector<std::string> argv) {
   using CommandMap = std::map<std::string, CommandType>;
 
   CommandMap commands = {
-      {"create-topic", &CreateTopicCommand},
-      {"delete-topic", &DeleteTopicCommand},
+      {"create-topic", CreateTopicCommand},
+      {"delete-topic", DeleteTopicCommand},
   };
 
   static std::string usage_msg = [&argv, &commands] {
