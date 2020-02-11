@@ -80,8 +80,8 @@ if [[ -n "${KOKORO_GFILE_DIR:-}" ]] &&
   #    https://github.com/grpc/grpc/issues/16571
   echo "================================================================"
   echo "Getting roots.pem for gRPC $(date)."
-  # Using -c (aka --continue) keeps only one copy of the downloaded file.
-  wget -q -c https://raw.githubusercontent.com/grpc/grpc/master/etc/roots.pem
+  rm -f ./roots.pem
+  wget -q https://raw.githubusercontent.com/grpc/grpc/master/etc/roots.pem
   export GRPC_DEFAULT_SSL_ROOTS_FILE_PATH="$PWD/roots.pem"
 fi
 export RUN_INTEGRATION_TESTS
