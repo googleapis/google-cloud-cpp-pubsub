@@ -134,14 +134,11 @@ void RunAll() {
   auto generator = google::cloud::internal::MakeDefaultPRNG();
   auto topic_id = RandomTopicId(generator);
 
-  google::cloud::pubsub::PublisherClient client(
-      google::cloud::pubsub::MakePublisherConnection());
-
   std::cout << "\nRunning create-topic sample\n";
-  CreateTopic(client, project_id, topic_id);
+  RunOneCommand({"create-topic", project_id, topic_id});
 
   std::cout << "\nRunning delete-topic sample\n";
-  DeleteTopic(client, project_id, topic_id);
+  RunOneCommand({"delete-topic", project_id, topic_id});
 }
 
 bool AutoRun() {
