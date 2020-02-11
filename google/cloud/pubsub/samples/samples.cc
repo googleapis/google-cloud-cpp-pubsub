@@ -135,10 +135,10 @@ void RunAll() {
   auto topic_id = RandomTopicId(generator);
 
   std::cout << "\nRunning create-topic sample\n";
-  RunOneCommand({"create-topic", project_id, topic_id});
+  RunOneCommand({"", "create-topic", project_id, topic_id});
 
   std::cout << "\nRunning delete-topic sample\n";
-  RunOneCommand({"delete-topic", project_id, topic_id});
+  RunOneCommand({"", "delete-topic", project_id, topic_id});
 }
 
 bool AutoRun() {
