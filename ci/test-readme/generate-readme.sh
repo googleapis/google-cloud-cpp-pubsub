@@ -58,11 +58,7 @@ _EOF_
 
 cat <<'_EOF_'
 
-**Build with the latest bazel release**
-[![Build status][bazelci-shield]][bazelci-link]
-
-[bazelci-shield]: https://badge.buildkite.com/414b5f8e146fdf26017f069e3b464d7df1caa6bfa5ec627ef9.svg
-[bazelci-link]: https://buildkite.com/bazel/github-dot-com-googleapis-google-cloud-cpp-pubsub
+<!-- TODO(#80) - add link to buildkite build here -->
 
 ## Documentation
 
@@ -82,12 +78,6 @@ properly format your code.
 ## Licensing
 
 Apache 2.0; see [`LICENSE`](LICENSE) for details.
-
-_EOF_
-
-cat "${BINDIR}"/README.md.in
-
-cat <<'_EOF_'
 
 [GitHub-new-issue]: https://github.com/googleapis/google-cloud-cpp-pubsub/issues/new
 
