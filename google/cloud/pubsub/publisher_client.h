@@ -92,8 +92,8 @@ class PublisherClient {
    * @par Example
    * @snippet samples.cc list-topics
    */
-  ListTopicsRange ListTopics(std::string project_id) {
-    return connection_->ListTopics({std::move(project_id)});
+  ListTopicsRange ListTopics(std::string const& project_id) {
+    return connection_->ListTopics({"projects/" + project_id});
   }
 
   /**
