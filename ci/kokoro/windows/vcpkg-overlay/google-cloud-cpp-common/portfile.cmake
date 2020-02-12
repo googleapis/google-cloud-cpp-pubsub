@@ -8,9 +8,9 @@ vcpkg_from_github(
     REPO
     googleapis/google-cloud-cpp-common
     REF
-    f4427ce3249d76465b9af18a474f7a72e8986914
+    v0.19.0
     SHA512
-    190efd2f7de7975bbb508d204a543cfac4a57482d90d49b1c66af7a0e283ace91ec63c5390b4241045c468fbfef9353a0f20bed8e81b2ebf670b7c58d3ec33a2
+    c297cdba8f4037b19ebb92af643730a92f7a50d6341d7fbb130446c6d2c1391732fdc4ef550b95261b8decfc10d138847efa97af6f8e48968e071bc13e853684
     HEAD_REF
     master)
 
