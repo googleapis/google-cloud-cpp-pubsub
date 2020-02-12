@@ -18,6 +18,25 @@ in the [release notes](README.md#release-notes) below.
 
 
 **Core Builds**
+[![CI status docker/asan][docker/asan-shield]][docker/asan-link]
+[![CI status docker/bazel-dependency][docker/bazel-dependency-shield]][docker/bazel-dependency-link]
+[![CI status docker/clang-3.8][docker/clang-3.8-shield]][docker/clang-3.8-link]
+[![CI status docker/clang-9][docker/clang-9-shield]][docker/clang-9-link]
+[![CI status docker/clang-tidy][docker/clang-tidy-shield]][docker/clang-tidy-link]
+[![CI status docker/cmake-super][docker/cmake-super-shield]][docker/cmake-super-link]
+[![CI status docker/coverage][docker/coverage-shield]][docker/coverage-link]
+[![CI status docker/cxx17][docker/cxx17-shield]][docker/cxx17-link]
+[![CI status docker/gcc-4.8][docker/gcc-4.8-shield]][docker/gcc-4.8-link]
+[![CI status docker/gcc-9][docker/gcc-9-shield]][docker/gcc-9-link]
+[![CI status docker/integration][docker/integration-shield]][docker/integration-link]
+[![CI status docker/libcxx][docker/libcxx-shield]][docker/libcxx-link]
+[![CI status docker/msan][docker/msan-shield]][docker/msan-link]
+[![CI status docker/ninja][docker/ninja-shield]][docker/ninja-link]
+[![CI status docker/no-exceptions][docker/no-exceptions-shield]][docker/no-exceptions-link]
+[![CI status docker/no-tests][docker/no-tests-shield]][docker/no-tests-link]
+[![CI status docker/shared][docker/shared-shield]][docker/shared-link]
+[![CI status docker/tsan][docker/tsan-shield]][docker/tsan-link]
+[![CI status docker/ubsan][docker/ubsan-shield]][docker/ubsan-link]
 [![CI status macos/bazel][macos/bazel-shield]][macos/bazel-link]
 [![CI status macos/cmake-super][macos/cmake-super-shield]][macos/cmake-super-link]
 [![CI status windows/bazel][windows/bazel-shield]][windows/bazel-link]
@@ -27,6 +46,56 @@ in the [release notes](README.md#release-notes) below.
 
 **Install Instructions**
 
+<!-- TODO(#40) - configure and enable ci/kokoro/install/* builds -->
+
+[![CI status install/centos-7][install/centos-7-shield]][install/centos-7-link]
+[![CI status install/centos-8][install/centos-8-shield]][install/centos-8-link]
+[![CI status install/debian-buster][install/debian-buster-shield]][install/debian-buster-link]
+[![CI status install/debian-stretch][install/debian-stretch-shield]][install/debian-stretch-link]
+[![CI status install/fedora][install/fedora-shield]][install/fedora-link]
+[![CI status install/opensuse-leap][install/opensuse-leap-shield]][install/opensuse-leap-link]
+[![CI status install/opensuse-tumbleweed][install/opensuse-tumbleweed-shield]][install/opensuse-tumbleweed-link]
+[![CI status install/ubuntu-bionic][install/ubuntu-bionic-shield]][install/ubuntu-bionic-link]
+[![CI status install/ubuntu-xenial][install/ubuntu-xenial-shield]][install/ubuntu-xenial-link]
+
+[docker/asan-link]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/docker/asan-link.html
+[docker/asan-shield]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/docker/asan.svg
+[docker/bazel-dependency-link]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/docker/bazel-dependency-link.html
+[docker/bazel-dependency-shield]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/docker/bazel-dependency.svg
+[docker/clang-3.8-link]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/docker/clang-3.8-link.html
+[docker/clang-3.8-shield]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/docker/clang-3.8.svg
+[docker/clang-9-link]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/docker/clang-9-link.html
+[docker/clang-9-shield]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/docker/clang-9.svg
+[docker/clang-tidy-link]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/docker/clang-tidy-link.html
+[docker/clang-tidy-shield]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/docker/clang-tidy.svg
+[docker/cmake-super-link]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/docker/cmake-super-link.html
+[docker/cmake-super-shield]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/docker/cmake-super.svg
+[docker/coverage-link]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/docker/coverage-link.html
+[docker/coverage-shield]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/docker/coverage.svg
+[docker/cxx17-link]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/docker/cxx17-link.html
+[docker/cxx17-shield]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/docker/cxx17.svg
+[docker/gcc-4.8-link]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/docker/gcc-4.8-link.html
+[docker/gcc-4.8-shield]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/docker/gcc-4.8.svg
+[docker/gcc-9-link]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/docker/gcc-9-link.html
+[docker/gcc-9-shield]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/docker/gcc-9.svg
+[docker/integration-link]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/docker/integration-link.html
+[docker/integration-shield]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/docker/integration.svg
+[docker/libcxx-link]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/docker/libcxx-link.html
+[docker/libcxx-shield]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/docker/libcxx.svg
+[docker/msan-link]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/docker/msan-link.html
+[docker/msan-shield]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/docker/msan.svg
+[docker/ninja-link]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/docker/ninja-link.html
+[docker/ninja-shield]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/docker/ninja.svg
+[docker/no-exceptions-link]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/docker/no-exceptions-link.html
+[docker/no-exceptions-shield]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/docker/no-exceptions.svg
+[docker/no-tests-link]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/docker/no-tests-link.html
+[docker/no-tests-shield]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/docker/no-tests.svg
+[docker/shared-link]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/docker/shared-link.html
+[docker/shared-shield]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/docker/shared.svg
+[docker/tsan-link]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/docker/tsan-link.html
+[docker/tsan-shield]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/docker/tsan.svg
+[docker/ubsan-link]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/docker/ubsan-link.html
+[docker/ubsan-shield]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/docker/ubsan.svg
 [macos/bazel-link]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/macos/bazel-link.html
 [macos/bazel-shield]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/macos/bazel.svg
 [macos/cmake-super-link]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/macos/cmake-super-link.html
