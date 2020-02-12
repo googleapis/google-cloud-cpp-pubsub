@@ -72,7 +72,7 @@ TEST(PublisherAdminIntegrationTest, PublisherCRUD) {
               Not(Contains(topic.FullName())));
 }
 
-TEST(PublisherAdminIntegrationTest, CreateFailure) {
+TEST(PublisherAdminIntegrationTest, CreateTopicFailure) {
   auto connection_options =
       ConnectionOptions(grpc::InsecureChannelCredentials())
           .set_endpoint("localhost:1");
@@ -82,7 +82,18 @@ TEST(PublisherAdminIntegrationTest, CreateFailure) {
   ASSERT_FALSE(create_response);
 }
 
-TEST(PublisherAdminIntegrationTest, DeleteFailure) {
+TEST(PublisherAdminIntegrationTest, ListTopicsFailure) {
+  auto connection_options =
+      ConnectionOptions(grpc::InsecureChannelCredentials())
+          .set_endpoint("localhost:1");
+  auto publisher = PublisherClient(MakePublisherConnection(connection_options));
+  auto list = publisher.ListTopics("--invalid-project--");
+  auto i = list.begin();
+  EXPECT_FALSE(i == list.end());
+  EXPECT_FALSE(*i);
+}
+
+TEST(PublisherAdminIntegrationTest, DeleteTopicFailure) {
   auto connection_options =
       ConnectionOptions(grpc::InsecureChannelCredentials())
           .set_endpoint("localhost:1");
