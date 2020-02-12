@@ -28,13 +28,11 @@ in the [release notes](README.md#release-notes) below.
 [![CI status docker/cxx17][docker/cxx17-shield]][docker/cxx17-link]
 [![CI status docker/gcc-4.8][docker/gcc-4.8-shield]][docker/gcc-4.8-link]
 [![CI status docker/gcc-9][docker/gcc-9-shield]][docker/gcc-9-link]
-[![CI status docker/integration][docker/integration-shield]][docker/integration-link]
 [![CI status docker/libcxx][docker/libcxx-shield]][docker/libcxx-link]
 [![CI status docker/msan][docker/msan-shield]][docker/msan-link]
 [![CI status docker/ninja][docker/ninja-shield]][docker/ninja-link]
 [![CI status docker/no-exceptions][docker/no-exceptions-shield]][docker/no-exceptions-link]
 [![CI status docker/no-tests][docker/no-tests-shield]][docker/no-tests-link]
-[![CI status docker/shared][docker/shared-shield]][docker/shared-link]
 [![CI status docker/tsan][docker/tsan-shield]][docker/tsan-link]
 [![CI status docker/ubsan][docker/ubsan-shield]][docker/ubsan-link]
 [![CI status macos/bazel][macos/bazel-shield]][macos/bazel-link]
@@ -44,19 +42,8 @@ in the [release notes](README.md#release-notes) below.
 [![Code Coverage Status][codecov-io-badge]][codecov-io-link]
 [![Link to Reference Documentation][doxygen-shield]][doxygen-link]
 
-**Install Instructions**
-
 <!-- TODO(#40) - configure and enable ci/kokoro/install/* builds -->
 
-[![CI status install/centos-7][install/centos-7-shield]][install/centos-7-link]
-[![CI status install/centos-8][install/centos-8-shield]][install/centos-8-link]
-[![CI status install/debian-buster][install/debian-buster-shield]][install/debian-buster-link]
-[![CI status install/debian-stretch][install/debian-stretch-shield]][install/debian-stretch-link]
-[![CI status install/fedora][install/fedora-shield]][install/fedora-link]
-[![CI status install/opensuse-leap][install/opensuse-leap-shield]][install/opensuse-leap-link]
-[![CI status install/opensuse-tumbleweed][install/opensuse-tumbleweed-shield]][install/opensuse-tumbleweed-link]
-[![CI status install/ubuntu-bionic][install/ubuntu-bionic-shield]][install/ubuntu-bionic-link]
-[![CI status install/ubuntu-xenial][install/ubuntu-xenial-shield]][install/ubuntu-xenial-link]
 
 [docker/asan-link]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/docker/asan-link.html
 [docker/asan-shield]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/docker/asan.svg
@@ -78,8 +65,6 @@ in the [release notes](README.md#release-notes) below.
 [docker/gcc-4.8-shield]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/docker/gcc-4.8.svg
 [docker/gcc-9-link]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/docker/gcc-9-link.html
 [docker/gcc-9-shield]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/docker/gcc-9.svg
-[docker/integration-link]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/docker/integration-link.html
-[docker/integration-shield]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/docker/integration.svg
 [docker/libcxx-link]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/docker/libcxx-link.html
 [docker/libcxx-shield]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/docker/libcxx.svg
 [docker/msan-link]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/docker/msan-link.html
@@ -90,12 +75,28 @@ in the [release notes](README.md#release-notes) below.
 [docker/no-exceptions-shield]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/docker/no-exceptions.svg
 [docker/no-tests-link]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/docker/no-tests-link.html
 [docker/no-tests-shield]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/docker/no-tests.svg
-[docker/shared-link]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/docker/shared-link.html
-[docker/shared-shield]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/docker/shared.svg
 [docker/tsan-link]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/docker/tsan-link.html
 [docker/tsan-shield]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/docker/tsan.svg
 [docker/ubsan-link]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/docker/ubsan-link.html
 [docker/ubsan-shield]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/docker/ubsan.svg
+[install/centos-7-link]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/install/centos-7-link.html
+[install/centos-7-shield]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/install/centos-7.svg
+[install/centos-8-link]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/install/centos-8-link.html
+[install/centos-8-shield]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/install/centos-8.svg
+[install/debian-buster-link]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/install/debian-buster-link.html
+[install/debian-buster-shield]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/install/debian-buster.svg
+[install/debian-stretch-link]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/install/debian-stretch-link.html
+[install/debian-stretch-shield]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/install/debian-stretch.svg
+[install/fedora-link]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/install/fedora-link.html
+[install/fedora-shield]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/install/fedora.svg
+[install/opensuse-leap-link]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/install/opensuse-leap-link.html
+[install/opensuse-leap-shield]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/install/opensuse-leap.svg
+[install/opensuse-tumbleweed-link]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/install/opensuse-tumbleweed-link.html
+[install/opensuse-tumbleweed-shield]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/install/opensuse-tumbleweed.svg
+[install/ubuntu-bionic-link]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/install/ubuntu-bionic-link.html
+[install/ubuntu-bionic-shield]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/install/ubuntu-bionic.svg
+[install/ubuntu-xenial-link]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/install/ubuntu-xenial-link.html
+[install/ubuntu-xenial-shield]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/install/ubuntu-xenial.svg
 [macos/bazel-link]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/macos/bazel-link.html
 [macos/bazel-shield]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/macos/bazel.svg
 [macos/cmake-super-link]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/macos/cmake-super-link.html
@@ -104,16 +105,12 @@ in the [release notes](README.md#release-notes) below.
 [codecov-io-link]: https://codecov.io/gh/googleapis/google-cloud-cpp-pubsub
 [doxygen-shield]: https://img.shields.io/badge/documentation-master-brightgreen.svg
 [doxygen-link]: https://googleapis.dev/cpp/google-cloud-pubsub/latest/
-[windows/bazel-shield]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub-windows-bazel.svg
-[windows/bazel-link]:   https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub-windows-bazel-link.html
-[windows/cmake-shield]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub-windows-cmake.svg
-[windows/cmake-link]:   https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub-windows-cmake-link.html
+[windows/bazel-shield]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/windows/bazel.svg
+[windows/bazel-link]:   https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/windows/bazel-link.html
+[windows/cmake-shield]: https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/windows/cmake.svg
+[windows/cmake-link]:   https://storage.googleapis.com/cloud-cpp-kokoro-status/pubsub/windows/cmake-link.html
 
-**Build with the latest bazel release**
-[![Build status][bazelci-shield]][bazelci-link]
-
-[bazelci-shield]: https://badge.buildkite.com/414b5f8e146fdf26017f069e3b464d7df1caa6bfa5ec627ef9.svg
-[bazelci-link]: https://buildkite.com/bazel/github-dot-com-googleapis-google-cloud-cpp-pubsub
+<!-- TODO(#80) - add link to buildkite build here -->
 
 ## Documentation
 

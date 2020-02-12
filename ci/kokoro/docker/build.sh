@@ -90,11 +90,6 @@ elif [[ "${BUILD_NAME}" = "coverage" ]]; then
   : "${RUN_INTEGRATION_TESTS:=$DEFAULT_RUN_INTEGRATION_TESTS}"
   export RUN_SLOW_INTEGRATION_TESTS=yes
   in_docker_script="ci/kokoro/docker/build-in-docker-cmake.sh"
-elif [[ "${BUILD_NAME}" = "integration" ]]; then
-  export CC=gcc
-  export CXX=g++
-  # Integration tests were explicitly requested; use "yes" as the default.
-  : "${RUN_INTEGRATION_TESTS:=yes}"
 elif [[ "${BUILD_NAME}" = "asan" ]]; then
   export BAZEL_CONFIG=asan
   export CC=clang
