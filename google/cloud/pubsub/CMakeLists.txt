@@ -111,7 +111,7 @@ add_library(
     topic.h
     version.cc
     version.h
-    version_info.h)
+    version_info.h create_subscription_builder.h)
 target_include_directories(
     googleapis_cpp_pubsub_client
     PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}>
