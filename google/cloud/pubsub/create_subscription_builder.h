@@ -94,13 +94,32 @@ class CreateSubscriptionBuilder {
     return *this;
   }
 
+  CreateSubscriptionBuilder& set_ack_deadline(std::chrono::seconds v) {
+    proto_.set_ack_deadline_seconds(v.count());
+    return *this;
+  }
+
+  CreateSubscriptionBuilder& set_retain_acked_messages(bool v) {
+    proto_.set_retain_acked_messages(v);
+    return *this;
+  }
+
+  template <typename Rep, typename Period>
+  CreateSubscriptionBuilder& set_message_retention_duration(
+      std::chrono::duration<Rep, Period> d) {
+    *proto_.mutable_message_retention_duration() =
+        ToDurationProto(std::move(d));
+    return *this;
+  }
+
   CreateSubscriptionBuilder& add_label(std::string const& key,
                                        std::string const& value) {
     using value_type = protobuf::Map<std::string, std::string>::value_type;
     proto_.mutable_labels()->insert(value_type(key, value));
     return *this;
   }
-  CreateSubscriptionBuilder& set_labels(std::vector<std::pair<std::string, std::string>> new_labels) {
+  CreateSubscriptionBuilder& set_labels(
+      std::vector<std::pair<std::string, std::string>> new_labels) {
     google::protobuf::Map<std::string, std::string> labels;
     for (auto& kv : new_labels) {
       labels[kv.first] = std::move(kv.second);
@@ -113,10 +132,55 @@ class CreateSubscriptionBuilder {
     return *this;
   }
 
+  CreateSubscriptionBuilder& enable_message_ordering(bool v) {
+    proto_.set_enable_message_ordering(v);
+    return *this;
+  }
+
+  CreateSubscriptionBuilder& set_expiration_policy(
+      google::pubsub::v1::ExpirationPolicy v) {
+    *proto_.mutable_expiration_policy() = std::move(v);
+    return *this;
+  }
+
+  CreateSubscriptionBuilder& set_dead_letter_policy(
+      google::pubsub::v1::DeadLetterPolicy v) {
+    *proto_.mutable_dead_letter_policy() = std::move(v);
+    return *this;
+  }
+
+  static google::pubsub::v1::DeadLetterPolicy MakeDeadLetterPolicy(
+      Topic const& dead_letter_topic, std::int32_t max_delivery_attemps = 0) {
+    google::pubsub::v1::DeadLetterPolicy result;
+    result.set_dead_letter_topic(dead_letter_topic.FullName());
+    result.set_max_delivery_attempts(max_delivery_attemps);
+    return result;
+  }
+
+  template <typename Rep, typename Period>
+  static google::pubsub::v1::ExpirationPolicy MakeExpirationPolicy(
+      std::chrono::duration<Rep, Period> d) {
+    google::pubsub::v1::ExpirationPolicy result;
+    *result.mutable_ttl() = ToDurationProto(std::move(d));
+    return result;
+  }
+
   google::pubsub::v1::Subscription as_proto() const& { return proto_; }
   google::pubsub::v1::Subscription&& as_proto() && { return std::move(proto_); }
 
  private:
+  template <typename Rep, typename Period>
+  static google::protobuf::Duration ToDurationProto(
+      std::chrono::duration<Rep, Period> d) {
+    auto seconds = std::chrono::duration_cast<std::chrono::seconds>(d);
+    auto nanos =
+        std::chrono::duration_cast<std::chrono::nanoseconds>(d - seconds);
+    google::protobuf::Duration result;
+    result.set_seconds(seconds.count());
+    result.set_nanos(nanos.count());
+    return result;
+  }
+
   google::pubsub::v1::Subscription proto_;
 };
 
