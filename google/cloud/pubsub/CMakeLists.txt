@@ -89,6 +89,7 @@ add_library(
     ${CMAKE_CURRENT_BINARY_DIR}/internal/build_info.cc
     connection_options.cc
     connection_options.h
+    create_subscription_builder.h
     create_topic_builder.h
     internal/build_info.h
     internal/compiler_info.cc
@@ -111,7 +112,7 @@ add_library(
     topic.h
     version.cc
     version.h
-    version_info.h create_subscription_builder.h)
+    version_info.h)
 target_include_directories(
     googleapis_cpp_pubsub_client
     PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}>
