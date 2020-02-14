@@ -89,13 +89,25 @@ class CreateSubscriptionBuilder {
     proto_.set_topic(topic.FullName());
   }
 
+  CreateSubscriptionBuilder& set_push_config(google::pubsub::v1::PushConfig v) {
+    *proto_.mutable_push_config() = std::move(v);
+    return *this;
+  }
+
   CreateSubscriptionBuilder& add_label(std::string const& key,
                                        std::string const& value) {
     using value_type = protobuf::Map<std::string, std::string>::value_type;
     proto_.mutable_labels()->insert(value_type(key, value));
     return *this;
   }
-
+  CreateSubscriptionBuilder& set_labels(std::vector<std::pair<std::string, std::string>> new_labels) {
+    google::protobuf::Map<std::string, std::string> labels;
+    for (auto& kv : new_labels) {
+      labels[kv.first] = std::move(kv.second);
+    }
+    proto_.mutable_labels()->swap(labels);
+    return *this;
+  }
   CreateSubscriptionBuilder& clear_labels() {
     proto_.clear_labels();
     return *this;

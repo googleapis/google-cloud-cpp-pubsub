@@ -90,27 +90,131 @@ TEST(CreateSubscriptionBuilder, PushConfigAddAttribute) {
   EXPECT_THAT(actual, IsProtoEqual(expected));
 }
 
-// TEST(Subscription, MoveProto) {
-//  auto builder = CreateSubscriptionBuilder(Subscription("test-project",
-//  "test-subscription"), Topic("test-project", "test-topic"))
-//      .add_label("key0", "label0")
-//      .add_label("key1", "label1");
-//  auto const actual = std::move(builder).as_proto();
-//  google::pubsub::v1::Topic expected;
-//  ASSERT_TRUE(TextFormat::ParseFromString(
-//      R"pb(
-//        name: "projects/test-project/topics/test-topic"
-//        labels: { key: "key1" value: "label1" }
-//        labels: { key: "key0" value: "label0" }
-//        message_storage_policy {
-//          allowed_persistence_regions: "us-central1"
-//          allowed_persistence_regions: "us-west1"
-//        }
-//        kms_key_name: "projects/.../test-only-string"
-//      )pb",
-//      &expected));
-//  EXPECT_THAT(actual, IsProtoEqual(expected));
-//}
+TEST(CreateSubscriptionBuilder, PushConfigSetAttributes) {
+  auto const actual = PushConfigBuilder("https://endpoint.example.com")
+                          .add_attribute("key0", "label0")
+                          .add_attribute("key1", "label1")
+                          .set_attributes({{"key2", "label2"}})
+                          .as_proto();
+  google::pubsub::v1::PushConfig expected;
+  ASSERT_TRUE(TextFormat::ParseFromString(
+      R"pb(
+        push_endpoint: "https://endpoint.example.com"
+        attributes: { key: "key2" value: "label2" }
+      )pb",
+      &expected));
+  EXPECT_THAT(actual, IsProtoEqual(expected));
+}
+
+TEST(CreateSubscriptionBuilder, PushConfigSetAuthentication) {
+  auto const actual =
+      PushConfigBuilder("https://endpoint.example.com")
+          .set_authentication(PushConfigBuilder::MakeOidcToken(
+              "fake-service-account@example.com", "test-audience"))
+          .as_proto();
+  google::pubsub::v1::PushConfig expected;
+  ASSERT_TRUE(TextFormat::ParseFromString(
+      R"pb(
+        push_endpoint: "https://endpoint.example.com"
+        oidc_token {
+          service_account_email: "fake-service-account@example.com"
+          audience: "test-audience"
+        }
+      )pb",
+      &expected));
+  EXPECT_THAT(actual, IsProtoEqual(expected));
+}
+
+TEST(CreateSubscriptionBuilder, Basic) {
+  auto const actual = CreateSubscriptionBuilder(
+                          Subscription("test-project", "test-subscription"),
+                          Topic("test-project", "test-topic"))
+                          .as_proto();
+  google::pubsub::v1::Subscription expected;
+  ASSERT_TRUE(TextFormat::ParseFromString(
+      R"pb(
+        name: "projects/test-project/subscriptions/test-subscription"
+        topic: "projects/test-project/topics/test-topic"
+      )pb",
+      &expected));
+  EXPECT_THAT(actual, IsProtoEqual(expected));
+}
+
+TEST(CreateSubscriptionBuilder, SetPushConfig) {
+  auto const actual =
+      CreateSubscriptionBuilder(
+          Subscription("test-project", "test-subscription"),
+          Topic("test-project", "test-topic"))
+          .set_push_config(
+              PushConfigBuilder("https://ep.example.com").as_proto())
+          .as_proto();
+  google::pubsub::v1::Subscription expected;
+  ASSERT_TRUE(TextFormat::ParseFromString(
+      R"pb(
+        name: "projects/test-project/subscriptions/test-subscription"
+        topic: "projects/test-project/topics/test-topic"
+        push_config { push_endpoint: "https://ep.example.com" }
+      )pb",
+      &expected));
+  EXPECT_THAT(actual, IsProtoEqual(expected));
+}
+
+TEST(CreateSubscriptionBuilder, AddLabels) {
+  auto const actual = CreateSubscriptionBuilder(
+                          Subscription("test-project", "test-subscription"),
+                          Topic("test-project", "test-topic"))
+                          .add_label("key0", "label0")
+                          .add_label("key1", "label1")
+                          .as_proto();
+  google::pubsub::v1::Subscription expected;
+  ASSERT_TRUE(TextFormat::ParseFromString(
+      R"pb(
+        name: "projects/test-project/subscriptions/test-subscription"
+        topic: "projects/test-project/topics/test-topic"
+        labels: { key: "key0", value: "label0" }
+        labels: { key: "key1", value: "label1" }
+      )pb",
+      &expected));
+  EXPECT_THAT(actual, IsProtoEqual(expected));
+}
+
+TEST(CreateSubscriptionBuilder, SetLabels) {
+  auto const actual = CreateSubscriptionBuilder(
+                          Subscription("test-project", "test-subscription"),
+                          Topic("test-project", "test-topic"))
+                          .add_label("key0", "label0")
+                          .add_label("key1", "label1")
+                          .set_labels({{"key2", "label2"}})
+                          .as_proto();
+  google::pubsub::v1::Subscription expected;
+  ASSERT_TRUE(TextFormat::ParseFromString(
+      R"pb(
+        name: "projects/test-project/subscriptions/test-subscription"
+        topic: "projects/test-project/topics/test-topic"
+        labels: { key: "key2", value: "label2" }
+      )pb",
+      &expected));
+  EXPECT_THAT(actual, IsProtoEqual(expected));
+}
+
+TEST(CreateSubscriptionBuilder, ClearLabels) {
+  auto const actual = CreateSubscriptionBuilder(
+                          Subscription("test-project", "test-subscription"),
+                          Topic("test-project", "test-topic"))
+                          .add_label("key0", "label0")
+                          .clear_labels()
+                          .add_label("key1", "label1")
+                          .as_proto();
+  google::pubsub::v1::Subscription expected;
+  ASSERT_TRUE(TextFormat::ParseFromString(
+      R"pb(
+        name: "projects/test-project/subscriptions/test-subscription"
+        topic: "projects/test-project/topics/test-topic"
+        labels: { key: "key1", value: "label1" }
+      )pb",
+      &expected));
+  EXPECT_THAT(actual, IsProtoEqual(expected));
+}
 
 }  // namespace
 }  // namespace GOOGLE_CLOUD_CPP_PUBSUB_NS
