@@ -24,27 +24,50 @@ namespace cloud {
 namespace pubsub {
 inline namespace GOOGLE_CLOUD_CPP_PUBSUB_NS {
 
+/**
+ * Helper class to create google::pubsub::v1::PushConfig protos.
+ */
 class PushConfigBuilder {
  public:
   explicit PushConfigBuilder(std::string push_endpoint) {
     proto_.set_push_endpoint(std::move(push_endpoint));
   }
 
-  PushConfigBuilder& set_service_account_email(std::string v) {
-    proto_.mutable_oidc_token()->set_service_account_email(std::move(v));
+  PushConfigBuilder& add_attribute(std::string const& key,
+                                   std::string const& value) {
+    proto_.mutable_attributes()->insert(
+        google::protobuf::Map<std::string, std::string>::value_type(key,
+                                                                    value));
     return *this;
   }
-
-  PushConfigBuilder& add_attribute(std::string const& key, std::string const& value) {
-    proto_.mutable_attributes()->insert(google::protobuf::Map<std::string, std::string>::value_type(key, value));
-    return *this;
-  }
-  PushConfigBuilder& set_attributes(std::vector<std::pair<std::string, std::string>> attr) {
+  PushConfigBuilder& set_attributes(
+      std::vector<std::pair<std::string, std::string>> attr) {
     google::protobuf::Map<std::string, std::string> attributes;
     for (auto& kv : attr) {
       attributes[kv.first] = std::move(kv.second);
     }
     proto_.mutable_attributes()->swap(attributes);
+    return *this;
+  }
+
+  static google::pubsub::v1::PushConfig::OidcToken MakeOidcToken(
+      std::string service_account_email) {
+    google::pubsub::v1::PushConfig::OidcToken proto;
+    proto.set_service_account_email(std::move(service_account_email));
+    return proto;
+  }
+
+  static google::pubsub::v1::PushConfig::OidcToken MakeOidcToken(
+      std::string service_account_email, std::string audience) {
+    google::pubsub::v1::PushConfig::OidcToken proto;
+    proto.set_service_account_email(std::move(service_account_email));
+    proto.set_audience(std::move(audience));
+    return proto;
+  }
+
+  PushConfigBuilder& set_authentication(
+      google::pubsub::v1::PushConfig::OidcToken token) {
+    *proto_.mutable_oidc_token() = std::move(token);
     return *this;
   }
 
