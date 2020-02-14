@@ -82,12 +82,12 @@ TEST(SubscriberAdminIntegrationTest, SubscriberCRUD) {
   auto topic_metadata = publisher_client.CreateTopic(CreateTopicBuilder(topic));
   ASSERT_STATUS_OK(topic_metadata);
 
-  struct Deferred {
+  struct Cleanup {
     std::function<void()> action;
-    explicit Deferred(std::function<void()> a) : action(std::move(a)) {}
-    ~Deferred() { action(); }
+    explicit Cleanup(std::function<void()> a) : action(std::move(a)) {}
+    ~Cleanup() { action(); }
   };
-  Deferred cleanup_topic{
+  Cleanup cleanup_topic{
       [&publisher_client, &topic] { publisher_client.DeleteTopic(topic); }};
 
   auto create_response = [&] {
@@ -115,6 +115,7 @@ TEST(SubscriberAdminIntegrationTest, SubscriberCRUD) {
 }
 
 TEST(SubscriberAdminIntegrationTest, CreateSubscriptionFailure) {
+  // Use an invalid endpoint to force a connection error.
   auto connection_options =
       ConnectionOptions(grpc::InsecureChannelCredentials())
           .set_endpoint("localhost:1");
@@ -127,6 +128,7 @@ TEST(SubscriberAdminIntegrationTest, CreateSubscriptionFailure) {
 }
 
 TEST(SubscriberAdminIntegrationTest, ListSubscriptionsFailure) {
+  // Use an invalid endpoint to force a connection error.
   auto connection_options =
       ConnectionOptions(grpc::InsecureChannelCredentials())
           .set_endpoint("localhost:1");
@@ -139,6 +141,7 @@ TEST(SubscriberAdminIntegrationTest, ListSubscriptionsFailure) {
 }
 
 TEST(SubscriberAdminIntegrationTest, DeleteSubscriptionFailure) {
+  // Use an invalid endpoint to force a connection error.
   auto connection_options =
       ConnectionOptions(grpc::InsecureChannelCredentials())
           .set_endpoint("localhost:1");

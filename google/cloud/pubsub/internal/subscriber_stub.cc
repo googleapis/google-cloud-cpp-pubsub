@@ -34,7 +34,7 @@ class DefaultSubscriberStub : public SubscriberStub {
     google::pubsub::v1::Subscription response;
     auto status = grpc_stub_->CreateSubscription(&context, request, &response);
     if (!status.ok()) {
-      return MakeStatusFromRpcError(status);
+      return google::cloud::MakeStatusFromRpcError(status);
     }
     return response;
   }
@@ -45,7 +45,7 @@ class DefaultSubscriberStub : public SubscriberStub {
     google::pubsub::v1::ListSubscriptionsResponse response;
     auto status = grpc_stub_->ListSubscriptions(&context, request, &response);
     if (!status.ok()) {
-      return MakeStatusFromRpcError(status);
+      return google::cloud::MakeStatusFromRpcError(status);
     }
     return response;
   }
@@ -56,7 +56,7 @@ class DefaultSubscriberStub : public SubscriberStub {
     google::protobuf::Empty response;
     auto status = grpc_stub_->DeleteSubscription(&context, request, &response);
     if (!status.ok()) {
-      return MakeStatusFromRpcError(status);
+      return google::cloud::MakeStatusFromRpcError(status);
     }
     return {};
   }
