@@ -32,6 +32,7 @@ googleapis_cpp_pubsub_client_hdrs = [
     "topic.h",
     "version.h",
     "version_info.h",
+    "subscriber_client.h",
 ]
 
 googleapis_cpp_pubsub_client_srcs = [
@@ -46,4 +47,5 @@ googleapis_cpp_pubsub_client_srcs = [
     "subscription.cc",
     "topic.cc",
     "version.cc",
+    "subscriber_client.cc",
 ]
