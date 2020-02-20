@@ -104,6 +104,8 @@ add_library(
     publisher_client.h
     publisher_connection.cc
     publisher_connection.h
+    subscriber_client.cc
+    subscriber_client.h
     subscriber_connection.cc
     subscriber_connection.h
     subscription.cc
@@ -112,7 +114,7 @@ add_library(
     topic.h
     version.cc
     version.h
-    version_info.h subscriber_client.cc subscriber_client.h)
+    version_info.h)
 target_include_directories(
     googleapis_cpp_pubsub_client
     PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}>

@@ -27,12 +27,12 @@ googleapis_cpp_pubsub_client_hdrs = [
     "internal/user_agent_prefix.h",
     "publisher_client.h",
     "publisher_connection.h",
+    "subscriber_client.h",
     "subscriber_connection.h",
     "subscription.h",
     "topic.h",
     "version.h",
     "version_info.h",
-    "subscriber_client.h",
 ]
 
 googleapis_cpp_pubsub_client_srcs = [
@@ -43,9 +43,9 @@ googleapis_cpp_pubsub_client_srcs = [
     "internal/user_agent_prefix.cc",
     "publisher_client.cc",
     "publisher_connection.cc",
+    "subscriber_client.cc",
     "subscriber_connection.cc",
     "subscription.cc",
     "topic.cc",
     "version.cc",
-    "subscriber_client.cc",
 ]
