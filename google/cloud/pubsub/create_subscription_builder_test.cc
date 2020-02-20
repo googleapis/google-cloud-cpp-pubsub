@@ -140,6 +140,60 @@ TEST(CreateSubscriptionBuilder, Basic) {
   EXPECT_THAT(actual, IsProtoEqual(expected));
 }
 
+TEST(CreateSubscriptionBuilder, SetAckDeadline) {
+  auto const actual = CreateSubscriptionBuilder(
+                          Subscription("test-project", "test-subscription"),
+                          Topic("test-project", "test-topic"))
+                          .set_ack_deadline(std::chrono::seconds(600))
+                          .as_proto();
+  google::pubsub::v1::Subscription expected;
+  ASSERT_TRUE(TextFormat::ParseFromString(
+      R"pb(
+        name: "projects/test-project/subscriptions/test-subscription"
+        topic: "projects/test-project/topics/test-topic"
+        ack_deadline_seconds: 600
+      )pb",
+      &expected));
+  EXPECT_THAT(actual, IsProtoEqual(expected));
+}
+
+TEST(CreateSubscriptionBuilder, SetRetainAckedMessages) {
+  auto const actual = CreateSubscriptionBuilder(
+                          Subscription("test-project", "test-subscription"),
+                          Topic("test-project", "test-topic"))
+                          .set_retain_acked_messages(true)
+                          .as_proto();
+  google::pubsub::v1::Subscription expected;
+  ASSERT_TRUE(TextFormat::ParseFromString(
+      R"pb(
+        name: "projects/test-project/subscriptions/test-subscription"
+        topic: "projects/test-project/topics/test-topic"
+        retain_acked_messages: true
+      )pb",
+      &expected));
+  EXPECT_THAT(actual, IsProtoEqual(expected));
+}
+
+TEST(CreateSubscriptionBuilder, SetMessageRetentionDuration) {
+  auto const actual =
+      CreateSubscriptionBuilder(
+          Subscription("test-project", "test-subscription"),
+          Topic("test-project", "test-topic"))
+          .set_message_retention_duration(std::chrono::minutes(1) +
+                                          std::chrono::seconds(2) +
+                                          std::chrono::microseconds(3))
+          .as_proto();
+  google::pubsub::v1::Subscription expected;
+  ASSERT_TRUE(TextFormat::ParseFromString(
+      R"pb(
+        name: "projects/test-project/subscriptions/test-subscription"
+        topic: "projects/test-project/topics/test-topic"
+        message_retention_duration { seconds: 62 nanos: 3000 }
+      )pb",
+      &expected));
+  EXPECT_THAT(actual, IsProtoEqual(expected));
+}
+
 TEST(CreateSubscriptionBuilder, SetPushConfig) {
   auto const actual =
       CreateSubscriptionBuilder(
@@ -214,6 +268,87 @@ TEST(CreateSubscriptionBuilder, ClearLabels) {
       )pb",
       &expected));
   EXPECT_THAT(actual, IsProtoEqual(expected));
+}
+
+TEST(CreateSubscriptionBuilder, EnableMessageOrdering) {
+  auto const actual = CreateSubscriptionBuilder(
+                          Subscription("test-project", "test-subscription"),
+                          Topic("test-project", "test-topic"))
+                          .enable_message_ordering(true)
+                          .as_proto();
+  google::pubsub::v1::Subscription expected;
+  ASSERT_TRUE(TextFormat::ParseFromString(
+      R"pb(
+        name: "projects/test-project/subscriptions/test-subscription"
+        topic: "projects/test-project/topics/test-topic"
+        enable_message_ordering: true
+      )pb",
+      &expected));
+  EXPECT_THAT(actual, IsProtoEqual(expected));
+}
+
+TEST(CreateSubscriptionBuilder, SetExpirationPolicy) {
+  auto const actual =
+      CreateSubscriptionBuilder(
+          Subscription("test-project", "test-subscription"),
+          Topic("test-project", "test-topic"))
+          .set_expiration_policy(
+              CreateSubscriptionBuilder::MakeExpirationPolicy(
+                  std::chrono::hours(2) + std::chrono::nanoseconds(3)))
+          .as_proto();
+  google::pubsub::v1::Subscription expected;
+  ASSERT_TRUE(TextFormat::ParseFromString(
+      R"pb(
+        name: "projects/test-project/subscriptions/test-subscription"
+        topic: "projects/test-project/topics/test-topic"
+        expiration_policy { ttl { seconds: 7200 nanos: 3 } }
+      )pb",
+      &expected));
+  EXPECT_THAT(actual, IsProtoEqual(expected));
+}
+
+TEST(CreateSubscriptionBuilder, SetDeadLetterPolicy) {
+  auto const actual = CreateSubscriptionBuilder(
+                          Subscription("test-project", "test-subscription"),
+                          Topic("test-project", "test-topic"))
+                          .set_dead_letter_policy(
+                              CreateSubscriptionBuilder::MakeDeadLetterPolicy(
+                                  Topic("test-project", "dead-letter"), 3))
+                          .as_proto();
+  google::pubsub::v1::Subscription expected;
+  ASSERT_TRUE(TextFormat::ParseFromString(
+      R"pb(
+        name: "projects/test-project/subscriptions/test-subscription"
+        topic: "projects/test-project/topics/test-topic"
+        dead_letter_policy {
+          dead_letter_topic: "projects/test-project/topics/dead-letter"
+          max_delivery_attempts: 3
+        }
+      )pb",
+      &expected));
+  EXPECT_THAT(actual, IsProtoEqual(expected));
+}
+
+template <typename Duration>
+void CheckMakeExpirationPolicy(Duration d,
+                               std::string const& expected_as_text) {
+  auto const actual = CreateSubscriptionBuilder::MakeExpirationPolicy(d);
+  google::pubsub::v1::ExpirationPolicy expected;
+  ASSERT_TRUE(TextFormat::ParseFromString(expected_as_text, &expected));
+  EXPECT_THAT(actual, IsProtoEqual(expected));
+}
+
+TEST(CreateSubscriptionBuilder, MakeExpirationPolicy) {
+  using std::chrono::hours;
+  using std::chrono::nanoseconds;
+  using std::chrono::seconds;
+  CheckMakeExpirationPolicy(seconds(0), R"pb(ttl { seconds: 0 })pb");
+  CheckMakeExpirationPolicy(nanoseconds(1), R"pb(ttl { nanos: 1 })pb");
+  CheckMakeExpirationPolicy(seconds(2) + nanoseconds(1),
+                            R"pb(ttl { seconds: 2 nanos: 1 })pb");
+  CheckMakeExpirationPolicy(hours(1), R"pb(ttl { seconds: 3600 })pb");
+  CheckMakeExpirationPolicy(hours(1) + seconds(2) + nanoseconds(3),
+                            R"pb(ttl { seconds: 3602 nanos: 3 })pb");
 }
 
 }  // namespace

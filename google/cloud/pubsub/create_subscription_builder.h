@@ -149,19 +149,19 @@ class CreateSubscriptionBuilder {
     return *this;
   }
 
-  static google::pubsub::v1::DeadLetterPolicy MakeDeadLetterPolicy(
-      Topic const& dead_letter_topic, std::int32_t max_delivery_attemps = 0) {
-    google::pubsub::v1::DeadLetterPolicy result;
-    result.set_dead_letter_topic(dead_letter_topic.FullName());
-    result.set_max_delivery_attempts(max_delivery_attemps);
-    return result;
-  }
-
   template <typename Rep, typename Period>
   static google::pubsub::v1::ExpirationPolicy MakeExpirationPolicy(
       std::chrono::duration<Rep, Period> d) {
     google::pubsub::v1::ExpirationPolicy result;
     *result.mutable_ttl() = ToDurationProto(std::move(d));
+    return result;
+  }
+
+  static google::pubsub::v1::DeadLetterPolicy MakeDeadLetterPolicy(
+      Topic const& dead_letter_topic, std::int32_t max_delivery_attemps = 0) {
+    google::pubsub::v1::DeadLetterPolicy result;
+    result.set_dead_letter_topic(dead_letter_topic.FullName());
+    result.set_max_delivery_attempts(max_delivery_attemps);
     return result;
   }
 
