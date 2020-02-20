@@ -95,7 +95,7 @@ class CreateSubscriptionBuilder {
   }
 
   CreateSubscriptionBuilder& set_ack_deadline(std::chrono::seconds v) {
-    proto_.set_ack_deadline_seconds(v.count());
+    proto_.set_ack_deadline_seconds(static_cast<std::int32_t>(v.count()));
     return *this;
   }
 
@@ -177,7 +177,7 @@ class CreateSubscriptionBuilder {
         std::chrono::duration_cast<std::chrono::nanoseconds>(d - seconds);
     google::protobuf::Duration result;
     result.set_seconds(seconds.count());
-    result.set_nanos(nanos.count());
+    result.set_nanos(static_cast<std::int32_t>(nanos.count()));
     return result;
   }
 
