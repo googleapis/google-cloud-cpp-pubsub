@@ -164,8 +164,8 @@ Consider adding this option to your project's `.bazelrc` file.
 | Library  | Minimum version | Description |
 | -------- | --------------: | ----------- |
 | protobuf | 3.11.3          | Some of the protos needed by Cloud Pub/Sub generate invalid code with protobuf <= 3.11.2 on Windows |
-| gRPC     | 1.26.x          | gRPC++ |
-| google-cloud-cpp-common   | 0.17.0 |
+| gRPC     | 1.26.x          | gRPC++ | |
+| google-cloud-cpp-common    | 0.20.0 | |
 
 Note that these libraries may also depend on other libraries. The following
 instructions include steps to install these indirect dependencies too.
