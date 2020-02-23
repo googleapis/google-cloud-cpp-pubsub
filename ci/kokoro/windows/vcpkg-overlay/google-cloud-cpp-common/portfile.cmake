@@ -10,7 +10,7 @@ vcpkg_from_github(
     REF
     v0.20.0
     SHA512
-        9b6c26a91cd5fc5d95bcbe7fb8dff106e5bf169ab535a9b6315319800fa0cbd875142a033a3c5ff21df028d221601ffbe8d1feb2349cb156025122abdd715851
+    9b6c26a91cd5fc5d95bcbe7fb8dff106e5bf169ab535a9b6315319800fa0cbd875142a033a3c5ff21df028d221601ffbe8d1feb2349cb156025122abdd715851
     HEAD_REF
     master)
 
