@@ -44,9 +44,9 @@ def google_cloud_cpp_pubsub_deps():
             name = "com_github_googleapis_google_cloud_cpp_common",
             strip_prefix = "google-cloud-cpp-common-0.20.0",
             urls = [
-                "https://github.com/googleapis/google-cloud-cpp-common/archive/v0.20.0.tar.gz",
+                "https://github.com/googleapis/google-cloud-cpp-common/archive/v0.21.0.tar.gz",
             ],
-            sha256 = "0f5a5e03a6447d68778b331cbc43ad4e9c27a519275261c4eb7b8f15d554cba3",
+            sha256 = "2e1cd2a97122a02fe3c58a997657a360e19ec9984b857197a9a193a07b4c092b",
         )
 
     # Load a version of googletest that we know works.
@@ -65,10 +65,10 @@ def google_cloud_cpp_pubsub_deps():
         http_archive(
             name = "com_google_googleapis",
             urls = [
-                "https://github.com/googleapis/googleapis/archive/9c9f778aedde02f9826d2ae5d0f9c96409ba0f25.tar.gz",
+                "https://github.com/googleapis/googleapis/archive/e9e90a787703ec5d388902e2cb796aaed3a385b4.tar.gz",
             ],
-            strip_prefix = "googleapis-9c9f778aedde02f9826d2ae5d0f9c96409ba0f25",
-            sha256 = "13af135d8cc9b81b47d6fbfc258fe790a151956d06e01fd16671aa49fe536ab1",
+            strip_prefix = "googleapis-e9e90a787703ec5d388902e2cb796aaed3a385b4",
+            sha256 = "4c0ba761e943b818cc8b242ed05d0cfdaaac7c4035a43eeab0820461c77619f0",
             build_file = "@com_github_googleapis_google_cloud_cpp_pubsub//bazel:googleapis.BUILD",
         )
 
