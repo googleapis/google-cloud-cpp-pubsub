@@ -35,10 +35,8 @@ ExternalProject_Add(
     gcp-pubsub
     DEPENDS google-cloud-cpp-common-project googletest-project
             googleapis-project
-    EXCLUDE_FROM_ALL
-        OFF
-        BUILD_ALWAYS
-        1
+    EXCLUDE_FROM_ALL OFF
+    BUILD_ALWAYS 1
     PREFIX "${CMAKE_BINARY_DIR}/build"
     INSTALL_DIR
         "${GOOGLE_CLOUD_CPP_EXTERNAL_PREFIX}"
