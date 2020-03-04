@@ -42,7 +42,7 @@ def google_cloud_cpp_pubsub_deps():
     if "com_github_googleapis_google_cloud_cpp_common" not in native.existing_rules():
         http_archive(
             name = "com_github_googleapis_google_cloud_cpp_common",
-            strip_prefix = "google-cloud-cpp-common-0.20.0",
+            strip_prefix = "google-cloud-cpp-common-0.21.0",
             urls = [
                 "https://github.com/googleapis/google-cloud-cpp-common/archive/v0.21.0.tar.gz",
             ],
