@@ -501,9 +501,9 @@ fi
 
 echo "    running: docker run" \
     "${docker_flags[@]}" \
-    "${IMAGE}:tip" \
+    "${IMAGE}:latest" \
     "${commands[@]}"
-sudo docker run "${docker_flags[@]}" "${IMAGE}:tip" "${commands[@]}"
+sudo docker run "${docker_flags[@]}" "${IMAGE}:latest" "${commands[@]}"
 
 exit_status=$?
 echo "Build finished with ${exit_status} exit status $(date)."
