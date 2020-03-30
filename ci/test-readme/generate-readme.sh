@@ -37,6 +37,14 @@ cat <<_EOF_
 _EOF_
 
 cat <<'_EOF_'
+> **NOTICE:** This repo will be merging with the
+[googleapis/google-cloud-cpp](https://github.com/googleapis/google-cloud-cpp)
+monorepo soon; possibly as soon as early April. We expect this new monorepo
+organization to be better for our existing and new customers going forward.
+Please see
+[googleapis/google-cloud-cpp#3612](https://github.com/googleapis/google-cloud-cpp/issues/3612)
+for more details.
+
 Cloud Pub/Sub is a fully-managed real-time messaging service that allows you to
 send and receive messages between independent applications.
 
