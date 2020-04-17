@@ -12,9 +12,9 @@ vcpkg_from_github(
     REPO
     googleapis/cpp-cmakefiles
     REF
-    v0.5.0
+    v0.8.0
     SHA512
-    8c552e9d2ad8341036464945c37a663a1135c97044fa9e70e372e9179515232d14725352c8c4b171d6b845c3a9273cecdbedc11e8e5cc08361ef03a608e3c025
+    a394cd21f850837283fa11d64f7e1c1078fe8c96f49b5ea11fcf0adaaf071d84bafb5a4b13b828872cbc45ff657470554dbb1d4e388b8ec8e32825b50bef233f
     HEAD_REF
     master)
 
