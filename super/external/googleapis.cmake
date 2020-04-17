@@ -23,9 +23,9 @@ if (NOT TARGET googleapis-project)
     # Give application developers a hook to configure the version and hash
     # downloaded from GitHub.
     set(GOOGLE_CLOUD_CPP_GOOGLEAPIS_URL
-        "https://github.com/googleapis/cpp-cmakefiles/archive/v0.5.0.tar.gz")
+        "https://github.com/googleapis/cpp-cmakefiles/archive/v0.8.0.tar.gz")
     set(GOOGLE_CLOUD_CPP_GOOGLEAPIS_SHA256
-        "aa3cd3f19f16eb5d6cac8a0cd1332ebeb3774944535462fd6487949480a01c99")
+        "76ec3c38a6eecb902c806d8829e2e3b17f460fb1ed835fe69e9a8601d0279e13")
 
     set_external_project_build_parallel_level(PARALLEL)
     set_external_project_vars()
