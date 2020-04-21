@@ -27,7 +27,7 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Threads REQUIRED)
-find_package(googleapis_cpp_pubsub_client REQUIRED)
+find_package(pubsub_client REQUIRED)
 
 # Once the pubsub_client package is found, define new targets.
 add_executable(pubsub_install_test pubsub_install_test.cc)
