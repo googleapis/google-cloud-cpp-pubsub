@@ -72,7 +72,7 @@ your own projects using `find_package()` in your `CMakeLists.txt` file:
 ```CMake
 cmake_minimum_required(VERSION 3.5)
 
-find_package(googleapis_cpp_pubsub_client REQUIRED)
+find_package(pubsub_client REQUIRED)
 
 add_executable(my_program my_program.cc)
 target_link_libraries(my_program googleapis-c++::pubsub_client)
@@ -84,9 +84,9 @@ Once you have installed `google-cloud-cpp-pubsub` you can use the libraries in
 your own Make-based projects using `pkg-config`:
 
 ```Makefile
-GCPP_CXXFLAGS   := $(shell pkg-config googleapis_cpp_pubsub_client --cflags)
-GCPP_CXXLDFLAGS := $(shell pkg-config googleapis_cpp_pubsub_client --libs-only-L)
-GCPP_LIBS       := $(shell pkg-config googleapis_cpp_pubsub_client --libs-only-l)
+GCPP_CXXFLAGS   := $(shell pkg-config pubsub_client --cflags)
+GCPP_CXXLDFLAGS := $(shell pkg-config pubsub_client --libs-only-L)
+GCPP_LIBS       := $(shell pkg-config pubsub_client --libs-only-l)
 
 my_program: my_program.cc
         $(CXX) $(CXXFLAGS) $(GCPP_CXXFLAGS) $(GCPP_CXXLDFLAGS) -o $@ $^ $(GCPP_LIBS)
